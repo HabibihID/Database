@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Habibi Store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:#0f172a;color:#e2e8f0;min-height:100vh}
+.login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-card{background:#1e293b;padding:32px;border-radius:16px;width:100%;max-width:380px;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.login-card h1{font-size:22px;margin-bottom:6px}
+.login-card p{color:#94a3b8;font-size:14px;margin-bottom:20px}
+.login-card input{width:100%;padding:12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin-bottom:12px;font-size:15px}
+.login-card button{width:100%;padding:12px;border:0;border-radius:10px;background:#22c55e;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.login-card button:hover{background:#16a34a}
+.err{color:#f87171;font-size:13px;margin-top:10px;display:none}
+.dash{display:none;max-width:1000px;margin:0 auto;padding:20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.header h1{font-size:22px}
+.logout{background:#dc2626;color:#fff;border:0;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;cursor:pointer;font-weight:600}
+.tab.active{background:#22c55e;color:#fff;border-color:#22c55e}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:#1e293b;border-radius:14px;padding:20px;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #334155}
+th{color:#94a3b8;font-weight:600;font-size:12px;text-transform:uppercase}
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.b-menunggu{background:#fef3c7;color:#92400e}
+.b-diproses{background:#dbeafe;color:#1e40af}
+.b-selesai{background:#dcfce7;color:#166534}
+.b-batal{background:#fee2e2;color:#991b1b}
+select,input[type=text],input[type=number]{padding:8px 12px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:14px}
+.btn{padding:8px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600;font-size:13px}
+.btn-green{background:#22c55e;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
+.btn-blue{background:#3b82f6;color:#fff}
+.btn-gray{background:#475569;color:#fff}
+.form-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.form-row input,.form-row select{flex:1;min-width:140px}
+label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
+.field{margin-bottom:14px}
+.field input{width:100%}
+.empty{color:#64748b;text-align:center;padding:30px}
+@media(max-width:640px){table{font-size:12px}th,td{padding:6px}}
+</style>
+</head>
+<body>
+
+<div class="login" id="loginBox">
+  <div class="login-card">
+    <h1>🔐 Admin Habibi Store</h1>
+    <p>Masukkan admin key untuk masuk dashboard.</p>
+    <input type="password" id="adminKey" placeholder="Admin key..." autocomplete="off">
+    <button onclick="doLogin()">Masuk</button>
+    <div class="err" id="loginErr">Key salah, coba lagi.</div>
+  </div>
+</div>
+
+<div class="dash" id="dashBox">
+  <div class="header">
+    <h1>📊 Dashboard Habibi Store</h1>
+    <button class="logout" onclick="doLogout()">Keluar</button>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('orders')">📦 Pesanan</div>
+    <div class="tab" onclick="showTab('vouchers')">🎟️ Voucher</div>
+    <div class="tab" onclick="showTab('settings')">⚙️ Pengaturan</div>
+  </div>
+
+  <div class="panel active" id="tab-orders">
+    <div class="card">
+      <div class="form-row">
+        <select id="filterStatus" onchange="loadOrders()">
+          <option value="">Semua status</option>
+          <option value="menunggu_pembayaran">Menunggu Pembayaran</option>
+          <option value="diproses">Diproses</option>
+          <option value="selesai">Selesai</option>
+          <option value="dibatalkan">Dibatalkan</option>
+        </select>
+        <button class="btn btn-blue" onclick="loadOrders()">🔄 Refresh</button>
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Invoice</th><th>Produk</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="ordersBody"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-vouchers">
+    <div class="card">
+      <h3 style="margin-bottom:14px">Tambah / Edit Voucher</h3>
+      <div class="form-row">
+        <input type="text" id="vCode" placeholder="KODE (cth: HEMAT20)">
+        <input type="number" id="vDisc" placeholder="Diskon % (0-100)" min="0" max="100">
+        <button class="btn btn-green" onclick="saveVoucher()">💾 Simpan</button>
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Kode</th><th>Diskon</th><th>Terpakai</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="vouchersBody"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-settings">
+    <div class="card">
+      <h3 style="margin-bottom:14px">Pengaturan Toko</h3>
+      <div class="field"><label>Nomor WhatsApp Admin (cth: 6285181576338)</label><input type="text" id="sWA"></div>
+      <div class="field"><label>Nama Toko</label><input type="text" id="sName"></div>
+      <div class="field"><label>Pesan Sambutan Checkout</label><input type="text" id="sGreet"></div>
+      <button class="btn btn-green" onclick="saveSettings()">💾 Simpan Pengaturan</button>
+      <span id="setMsg" style="margin-left:10px;font-size:13px"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+var API = 'https://api.servercloud.my.id';
+var KEY = sessionStorage.getItem('hbs_admin_key') || '';
+
+function api(path, method, body) {
+  var opts = { method: method || 'GET', headers: { 'x-admin-key': KEY } };
+  if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+  return fetch(API + path, opts).then(function (r) { return r.json(); });
+}
+function badge(s) {
+  var m = { menunggu_pembayaran: ['b-menunggu', 'Menunggu'], diproses: ['b-diproses', 'Diproses'], selesai: ['b-selesai', 'Selesai'], dibatalkan: ['b-batal', 'Batal'] };
+  var x = m[s] || ['b-menunggu', s];
+  return '<span class="badge ' + x[0] + '">' + x[1] + '</span>';
+}
+function rp(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
+
+function doLogin() {
+  KEY = document.getElementById('adminKey').value.trim();
+  api('/store/admin/orders?limit=1').then(function (d) {
+    if (d.status) {
+      sessionStorage.setItem('hbs_admin_key', KEY);
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('dashBox').style.display = 'block';
+      loadOrders(); loadVouchers(); loadSettings();
+    } else { document.getElementById('loginErr').style.display = 'block'; }
+  }).catch(function () { document.getElementById('loginErr').style.display = 'block'; });
+}
+function doLogout() { sessionStorage.removeItem('hbs_admin_key'); location.reload(); }
+function showTab(t) {
+  document.querySelectorAll('.tab').forEach(function (e) { e.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function (e) { e.classList.remove('active'); });
+  event.target.classList.add('active');
+  document.getElementById('tab-' + t).classList.add('active');
+}
+
+function loadOrders() {
+  var st = document.getElementById('filterStatus').value;
+  api('/store/admin/orders' + (st ? '?status=' + st : '')).then(function (d) {
+    var tb = document.getElementById('ordersBody');
+    if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">Belum ada pesanan.</td></tr>'; return; }
+    tb.innerHTML = d.data.map(function (o) {
+      return '<tr><td><b>' + o.invoice_number + '</b><br><small style="color:#94a3b8">' + (o.customer_name || '-') + '</small></td>' +
+        '<td>' + o.product_name + '<br><small style="color:#94a3b8">' + (o.panel_username || '') + '</small></td>' +
+        '<td>' + rp(o.total) + '</td><td>' + badge(o.status) + '</td>' +
+        '<td><select onchange="setStatus(\'' + o.invoice_number + '\',this.value)">' +
+        '<option value="">Ubah...</option>' +
+        '<option value="menunggu_pembayaran">Menunggu</option><option value="diproses">Diproses</option>' +
+        '<option value="selesai">Selesai</option><option value="dibatalkan">Batal</option></select></td></tr>';
+    }).join('');
+  });
+}
+function setStatus(inv, st) {
+  if (!st) return;
+  api('/store/admin/orders/' + inv, 'PATCH', { status: st }).then(function () { loadOrders(); });
+}
+
+function loadVouchers() {
+  api('/store/admin/vouchers').then(function (d) {
+    var tb = document.getElementById('vouchersBody');
+    if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">Belum ada voucher.</td></tr>'; return; }
+    tb.innerHTML = d.data.map(function (v) {
+      return '<tr><td><b>' + v.code + '</b></td><td>' + v.discount_percent + '%</td>' +
+        '<td>' + (v.used_count || 0) + (v.max_uses ? '/' + v.max_uses : '') + '</td>' +
+        '<td>' + (v.is_active ? '<span class="badge b-selesai">Aktif</span>' : '<span class="badge b-batal">Nonaktif</span>') + '</td>' +
+        '<td><button class="btn btn-gray" onclick="editVoucher(\'' + v.code + '\',' + v.discount_percent + ')">Edit</button> ' +
+        '<button class="btn btn-red" onclick="delVoucher(\'' + v.code + '\')">Hapus</button></td></tr>';
+    }).join('');
+  });
+}
+function saveVoucher() {
+  var code = document.getElementById('vCode').value.trim().toUpperCase();
+  var disc = parseInt(document.getElementById('vDisc').value, 10);
+  if (!code || isNaN(disc) || disc < 0 || disc > 100) { alert('Isi kode & diskon 0-100!'); return; }
+  api('/store/admin/vouchers', 'POST', { code: code, discount_percent: disc }).then(function (d) {
+    if (d.status) { document.getElementById('vCode').value = ''; document.getElementById('vDisc').value = ''; loadVouchers(); }
+    else alert(d.message || 'Gagal');
+  });
+}
+function editVoucher(code, disc) {
+  document.getElementById('vCode').value = code;
+  document.getElementById('vDisc').value = disc;
+  window.scrollTo(0, 0);
+}
+function delVoucher(code) {
+  if (!confirm('Hapus voucher ' + code + '?')) return;
+  api('/store/admin/vouchers/' + code, 'DELETE').then(function () { loadVouchers(); });
+}
+
+function loadSettings() {
+  api('/store/admin/settings').then(function (d) {
+    if (!d.status) return;
+    d.data.forEach(function (s) {
+      if (s.key === 'whatsapp_number') document.getElementById('sWA').value = s.value;
+      if (s.key === 'store_name') document.getElementById('sName').value = s.value;
+      if (s.key === 'checkout_greeting') document.getElementById('sGreet').value = s.value;
+    });
+  });
+}
+function saveSettings() {
+  var items = [
+    ['whatsapp_number', document.getElementById('sWA').value.trim()],
+    ['store_name', document.getElementById('sName').value.trim()],
+    ['checkout_greeting', document.getElementById('sGreet').value.trim()]
+  ];
+  var msg = document.getElementById('setMsg');
+  Promise.all(items.map(function (it) { return api('/store/admin/settings', 'POST', { key: it[0], value: it[1] }); }))
+    .then(function () { msg.textContent = '✅ Tersimpan!'; msg.style.color = '#22c55e'; setTimeout(function(){msg.textContent='';}, 2500); });
+}
+
+// auto-login kalau sudah ada key
+if (KEY) {
+  api('/store/admin/orders?limit=1').then(function (d) {
+    if (d.status) {
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById('dashBox').style.display = 'block';
+      loadOrders(); loadVouchers(); loadSettings();
+    }
+  }).catch(function(){});
+}
+document.getElementById('adminKey').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+</script>
+</body>
+</html>
