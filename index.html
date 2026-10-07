@@ -1977,10 +1977,11 @@
         }
       }
 
-      // Flash sale countdown resets at the next local midnight.
+      // Flash sale countdown: pakai ends_at dari API, fallback tengah malam.
+      window.HABI_FLASH_END = null;
       function updateCountdown() {
         var now = new Date();
-        var end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        var end = window.HABI_FLASH_END ? new Date(window.HABI_FLASH_END) : new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
         var remaining = Math.max(0, end.getTime() - now.getTime());
         var hours = Math.floor(remaining / 3600000);
         var minutes = Math.floor((remaining % 3600000) / 60000);
@@ -2307,7 +2308,16 @@
     }
     fetch('https://api.servercloud.my.id/store/flashsales')
       .then(function(r) { return r.json(); })
-      .then(function(d) { if (d.status && d.data) render(d.data); })
+      .then(function(d) {
+        if (d.status && d.data) {
+          render(d.data);
+          var withEnd = d.data.filter(function(f) { return f.ends_at; });
+          if (withEnd.length) {
+            withEnd.sort(function(a, b) { return new Date(a.ends_at) - new Date(b.ends_at); });
+            window.HABI_FLASH_END = withEnd[0].ends_at;
+          }
+        }
+      })
       .catch(function() { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Gagal memuat promo.</p>'; });
   })();
 
@@ -2343,7 +2353,16 @@
     }
     fetch('https://api.servercloud.my.id/store/flashsales')
       .then(function(r) { return r.json(); })
-      .then(function(d) { if (d.status && d.data) render(d.data); })
+      .then(function(d) {
+        if (d.status && d.data) {
+          render(d.data);
+          var withEnd = d.data.filter(function(f) { return f.ends_at; });
+          if (withEnd.length) {
+            withEnd.sort(function(a, b) { return new Date(a.ends_at) - new Date(b.ends_at); });
+            window.HABI_FLASH_END = withEnd[0].ends_at;
+          }
+        }
+      })
       .catch(function() { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Gagal memuat promo.</p>'; });
   })(); }
       if (d.data.store_name) settings.store_name = d.data.store_name;
