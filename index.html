@@ -2290,13 +2290,13 @@
         return;
       }
       grid.innerHTML = items.map(function(f) {
-        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.promo_price) / f.normal_price * 100) : 0;
+        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.sale_price) / f.normal_price * 100) : 0;
         var sold = f.stock > 0 ? Math.min(95, Math.round((1 - f.stock / (f.stock + 10)) * 100)) : 90;
         return '<article class="flash-card"><span class="flash-card-label">\u2212' + disc + '%</span><h3>' + f.product_name + '</h3>' +
-          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.promo_price) + '</strong></div>' +
+          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.sale_price) + '</strong></div>' +
           '<div class="sale-progress" aria-hidden="true"><span style="--sold:' + sold + '%"></span></div>' +
           '<div class="flash-sold">Terjual ' + sold + '%</div>' +
-          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.promo_price + '">Ambil promo</button></article>';
+          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.sale_price + '">Ambil promo</button></article>';
       }).join('');
       // bind tombol beli yang baru di-render
       grid.querySelectorAll('[data-demo-product]').forEach(function(btn) {
@@ -2326,13 +2326,13 @@
         return;
       }
       grid.innerHTML = items.map(function(f) {
-        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.promo_price) / f.normal_price * 100) : 0;
+        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.sale_price) / f.normal_price * 100) : 0;
         var sold = f.stock > 0 ? Math.min(95, Math.round((1 - f.stock / (f.stock + 10)) * 100)) : 90;
         return '<article class="flash-card"><span class="flash-card-label">\u2212' + disc + '%</span><h3>' + f.product_name + '</h3>' +
-          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.promo_price) + '</strong></div>' +
+          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.sale_price) + '</strong></div>' +
           '<div class="sale-progress" aria-hidden="true"><span style="--sold:' + sold + '%"></span></div>' +
           '<div class="flash-sold">Terjual ' + sold + '%</div>' +
-          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.promo_price + '">Ambil promo</button></article>';
+          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.sale_price + '">Ambil promo</button></article>';
       }).join('');
       // bind tombol beli yang baru di-render
       grid.querySelectorAll('[data-demo-product]').forEach(function(btn) {
