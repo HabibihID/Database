@@ -1,0 +1,2257 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#0b0d10" />
+  <link rel="icon" href="data:," />
+  <title>Habibi Store — Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080a0c;
+      --surface: #111418;
+      --surface-2: #191e23;
+      --surface-3: #222931;
+      --text: #f4f6ef;
+      --muted: #aeb7ad;
+      --line: #2b3339;
+      --accent: #ff7040;
+      --accent-2: #78daa3;
+      --lime: #d3ec72;
+      --shadow: 0 22px 70px rgba(0, 0, 0, .38);
+      --hero: radial-gradient(circle at 86% 15%, rgba(207,232,111,.17), transparent 28%), linear-gradient(135deg, #15191d 0%, #0d1013 100%);
+      --qr-bg: #fff;
+      --qr-ink: #111;
+      --danger: #ff8f83;
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f5ef;
+      --surface: #ffffff;
+      --surface-2: #e9ece4;
+      --surface-3: #dde2d8;
+      --text: #171b18;
+      --muted: #5f685f;
+      --line: #cfd5cc;
+      --accent: #d94c1b;
+      --accent-2: #167c4d;
+      --lime: #cce75b;
+      --shadow: 0 22px 60px rgba(35, 48, 38, .14);
+      --hero: radial-gradient(circle at 86% 15%, rgba(204,231,91,.42), transparent 30%), linear-gradient(135deg, #ffffff 0%, #e9ece4 100%);
+      --danger: #b92f25;
+    }
+    :root[data-theme="dark"] { color-scheme: dark; }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) {
+        color-scheme: light;
+        --bg: #f4f5ef;
+        --surface: #ffffff;
+        --surface-2: #e9ece4;
+        --surface-3: #dde2d8;
+        --text: #171b18;
+        --muted: #5f685f;
+        --line: #cfd5cc;
+        --accent: #d94c1b;
+        --accent-2: #167c4d;
+        --lime: #cce75b;
+        --shadow: 0 22px 60px rgba(35, 48, 38, .14);
+        --hero: radial-gradient(circle at 86% 15%, rgba(204,231,91,.42), transparent 30%), linear-gradient(135deg, #ffffff 0%, #e9ece4 100%);
+        --danger: #b92f25;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    svg { display: block; }
+    .container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    .preview-bar {
+      padding: 9px 16px;
+      background: var(--lime);
+      color: #172015;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: .01em;
+    }
+    .site-nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 700; }
+    .nav-links a:hover { color: var(--text); }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent-2);
+    }
+    .status-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #32c06e; box-shadow: 0 0 0 5px rgba(50,192,110,.12); }
+    .nav-cta, .primary-btn, .secondary-btn, .buy-btn, .filter-btn, .round-btn, .confirm-btn, .preview-confirm, .wa-float {
+      position: relative;
+      overflow: hidden;
+      border: 0;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .nav-cta:hover, .primary-btn:hover, .buy-btn:hover, .preview-confirm:hover, .confirm-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,112,64,.24); }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: rgba(255,255,255,.42);
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple .62s ease-out forwards;
+    }
+    @keyframes ripple { to { transform: translate(-50%, -50%) scale(4); opacity: 0; } }
+    .nav-cta {
+      padding: 11px 16px;
+      border-radius: 12px;
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 48px;
+      align-items: center;
+      padding: 64px;
+      border: 1px solid var(--line);
+      border-radius: 30px 30px 90px 30px;
+      background: var(--hero);
+      background-size: 180% 180%;
+      box-shadow: var(--shadow);
+      animation: heroGradient 12s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      right: 24%;
+      bottom: -230px;
+      border-radius: 50%;
+      border: 1px solid rgba(211,236,114,.22);
+      box-shadow: 0 0 70px rgba(211,236,114,.12);
+      animation: heroOrbit 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroGradient { 0% { background-position: 0% 50%; } 100% { background-position: 100% 36%; } }
+    @keyframes heroOrbit { to { transform: translate(48px, -34px) scale(1.18); opacity: .55; } }
+    .hero-copy { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .03em;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; }
+    h1 {
+      margin: 18px 0 20px;
+      max-width: 720px;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      font-weight: 800;
+    }
+    .hero-copy > p { max-width: 620px; margin: 0; color: var(--muted); font-size: 17px; line-height: 1.75; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+    .primary-btn, .secondary-btn { padding: 14px 19px; border-radius: 14px; }
+    .primary-btn { background: var(--accent); color: #fff; }
+    .secondary-btn { background: transparent; border: 1px solid var(--line); }
+    .secondary-btn:hover { border-color: var(--text); }
+    .hero-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 38px; }
+    .metric { padding-top: 12px; border-top: 1px solid var(--line); }
+    .metric strong { display: block; font-size: 19px; font-variant-numeric: tabular-nums; }
+    .metric span { color: var(--muted); font-size: 11px; }
+
+    .checkout-preview {
+      position: relative;
+      max-width: 420px;
+      justify-self: end;
+      padding: 18px;
+      border-radius: 26px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      transform: rotate(2deg);
+    }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 15px; }
+    .preview-top strong { font-size: 13px; }
+    .preview-step { color: var(--muted); font-size: 11px; }
+    .preview-product {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px;
+      border-radius: 16px;
+      background: var(--surface-2);
+    }
+    .preview-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: var(--lime); color: #1d261a; }
+    .preview-product b { display: block; font-size: 13px; }
+    .preview-product small { color: var(--muted); }
+    .preview-product > strong { color: var(--accent); font-size: 13px; }
+    .mini-qr {
+      margin: 16px 0;
+      padding: 16px;
+      display: grid;
+      place-items: center;
+      min-height: 180px;
+      border-radius: 20px;
+      color: var(--qr-ink);
+      background: var(--qr-bg);
+      border: 1px dashed #c8c8c8;
+    }
+    .mini-qr-inner { text-align: center; }
+    .qr-mark { width: 86px; height: 86px; margin: 0 auto 9px; color: #111; }
+    .mini-qr b { font-size: 12px; }
+    .mini-qr small { display: block; margin-top: 2px; color: #666; font-size: 9px; }
+    .preview-confirm { width: 100%; padding: 13px; border: 0; border-radius: 14px; background: #1fc56a; color: #08170d; font-weight: 800; }
+    .float-badge {
+      position: absolute;
+      right: -22px;
+      top: 72px;
+      padding: 10px 13px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      transform: rotate(5deg);
+      box-shadow: 0 12px 28px rgba(255,107,53,.28);
+    }
+
+    section { padding: 96px 0 0; }
+    .reveal { opacity: 1; transform: none; }
+    .reveal.is-visible { animation: revealIn .7s cubic-bezier(.22,1,.36,1) both; animation-delay: var(--reveal-delay, 0ms); }
+    @keyframes revealIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 28px; }
+    .section-head h2 { margin: 0; font-size: clamp(30px, 4vw, 48px); line-height: 1.08; letter-spacing: -.04em; }
+    .section-head p { max-width: 500px; margin: 0; color: var(--muted); }
+
+    .catalog-toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .search-wrap { position: relative; }
+    .search-wrap svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .search-wrap input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px 0 48px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      outline: none;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; justify-content: end; }
+    .filter-btn {
+      min-height: 42px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+    .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .catalog-count { margin: -10px 0 20px; color: var(--muted); font-size: 12px; }
+    .catalog-count strong { color: var(--accent-2); }
+    .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .panel-showcase {
+      position: relative;
+      margin: 8px 0 52px;
+      padding: 30px;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--accent) 50%, var(--line));
+      border-radius: 30px 30px 72px 30px;
+      background: radial-gradient(circle at 95% 0%, rgba(255,112,64,.14), transparent 30%), var(--surface-2);
+      box-shadow: 0 24px 64px rgba(0,0,0,.24);
+    }
+    .panel-showcase::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -80px;
+      top: -100px;
+      border: 1px solid rgba(211,236,114,.22);
+      border-radius: 50%;
+      animation: panelPulse 7s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes panelPulse { to { transform: translate(-24px, 28px) scale(1.16); opacity: .55; } }
+    .panel-feature-head { position: relative; z-index: 1; display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: 24px; }
+    .panel-label { display: inline-flex; padding: 7px 10px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; }
+    .panel-feature-head h3 { margin: 12px 0 8px; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; letter-spacing: -.04em; }
+    .panel-feature-head p { max-width: 650px; margin: 0; color: var(--muted); }
+    .panel-total { flex: 0 0 auto; display: flex; align-items: baseline; gap: 8px; padding: 14px 16px; border-radius: 16px; background: var(--surface); }
+    .panel-total strong { color: var(--lime); font-size: 28px; line-height: 1; }
+    .panel-total span { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .panel-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .panel-card { min-height: 316px; background: var(--surface); }
+    .panel-card:nth-child(even) { border-radius: 22px 52px 22px 22px; }
+    .panel-card h3 { margin-top: 18px; }
+    .panel-specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+    .panel-specs span { min-width: 0; padding: 9px 10px; border-radius: 10px; background: var(--surface-2); }
+    .panel-specs small { display: block; color: var(--muted); font-size: 9px; font-weight: 700; }
+    .panel-specs b { display: block; margin-top: 2px; overflow-wrap: anywhere; font-size: 12px; }
+    .services-title { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin: 0 0 20px; }
+    .services-title span { color: var(--accent-2); font-size: 11px; font-weight: 800; }
+    .services-title h3 { margin: 4px 0 0; font-size: 28px; letter-spacing: -.035em; }
+    .services-title p { max-width: 460px; margin: 0; color: var(--muted); font-size: 13px; text-align: right; }
+
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 334px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 22px 22px 52px 22px;
+      background: var(--surface);
+      transition: transform .3s cubic-bezier(.22,1,.36,1), border-color .3s ease, box-shadow .3s ease;
+    }
+    .product-card::after {
+      content: "";
+      position: absolute;
+      inset: -60% auto auto -45%;
+      width: 48%;
+      height: 220%;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+      transform: rotate(18deg) translateX(-180%);
+      transition: transform .65s ease;
+    }
+    .product-card:nth-child(even) { border-radius: 22px 52px 22px 22px; }
+    .product-card:hover { transform: translateY(-9px); border-color: color-mix(in srgb, var(--accent) 58%, var(--line)); box-shadow: 0 20px 44px rgba(0,0,0,.32), 0 0 26px rgba(255,112,64,.11); }
+    .product-card:hover::after { transform: rotate(18deg) translateX(440%); }
+    .product-card[hidden] { display: none; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .product-art { width: 62px; height: 62px; display: grid; place-items: center; border-radius: 18px; color: #1a2118; }
+    .art-lime { background: var(--lime); }
+    .art-orange { background: #ffb28e; }
+    .art-blue { background: #9dd9ff; }
+    .art-pink { background: #ffb2cf; }
+    .art-mint { background: #9ce6c2; }
+    .art-yellow { background: #ffe282; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 10px; background: var(--surface-2); color: var(--muted); font-size: 10px; font-weight: 800; }
+    .badge.hot { background: #ffe1d5; color: #8b2d0c; }
+    @media (prefers-color-scheme: dark) { .badge.hot { background: #4d2618; color: #ffb292; } }
+    .product-card h3 { margin: 22px 0 8px; font-size: 18px; line-height: 1.25; letter-spacing: -.025em; }
+    .product-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .product-meta { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+    .meta-chip { padding: 6px 8px; border-radius: 8px; background: var(--surface-2); color: var(--muted); font-size: 10px; font-weight: 700; }
+    .card-bottom { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 20px; }
+    .price small { display: block; color: var(--muted); font-size: 10px; }
+    .price strong { font-size: 19px; }
+    .buy-btn { padding: 11px 14px; border-radius: 12px; background: var(--accent); color: #fff; }
+    .empty-state { display: none; grid-column: 1 / -1; padding: 50px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 20px; }
+    .empty-state.show { display: block; }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--line);
+    }
+    .flow-step { padding: 28px; background: var(--surface); }
+    .step-num { color: var(--accent); font-size: 12px; font-weight: 800; }
+    .flow-step h3 { margin: 12px 0 8px; font-size: 16px; }
+    .flow-step p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    .stories-layout { display: grid; grid-template-columns: .75fr 1.25fr; gap: 36px; align-items: stretch; }
+    .stories-title { padding: 35px; border-radius: 28px 28px 78px 28px; background: var(--lime); color: #182015; }
+    .stories-title h2 { margin: 0 0 16px; font-size: clamp(34px, 4vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
+    .stories-title p { margin: 0; color: #3b4938; }
+    .testimonial-shell { position: relative; min-height: 330px; padding: 38px; border: 1px solid var(--line); border-radius: 28px; background: var(--surface); }
+    .quote-mark { color: var(--accent); font-size: 68px; line-height: .7; font-weight: 800; }
+    .testimonial { display: none; }
+    .testimonial.active { display: block; }
+    .testimonial blockquote { margin: 22px 0 28px; font-size: clamp(20px, 2.5vw, 30px); line-height: 1.4; letter-spacing: -.02em; font-weight: 650; }
+    .person { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-3); font-weight: 800; }
+    .person strong { display: block; font-size: 13px; }
+    .person small { color: var(--muted); }
+    .testimonial-controls { position: absolute; right: 28px; bottom: 28px; display: flex; gap: 8px; }
+    .round-btn { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; }
+    .round-btn:hover { background: var(--surface-2); }
+
+    .faq-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: 50px; }
+    .faq-intro h2 { margin: 0 0 16px; font-size: clamp(34px, 4vw, 50px); letter-spacing: -.04em; line-height: 1.05; }
+    .faq-intro p { margin: 0; color: var(--muted); }
+    .faq-list { border-top: 1px solid var(--line); }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-question {
+      width: 100%;
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+    }
+    .faq-question svg { flex: 0 0 auto; transition: transform .2s ease; }
+    .faq-item.open .faq-question svg { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; color: var(--muted); font-size: 14px; transition: max-height .25s ease; }
+    .faq-item.open .faq-answer { max-height: 160px; }
+    .faq-answer p { margin: 0; padding: 0 0 22px; }
+
+    .footer-cta {
+      margin: 96px 0 28px;
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      border-radius: 28px;
+      background: var(--text);
+      color: var(--bg);
+    }
+    .footer-cta h2 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 46px); letter-spacing: -.04em; }
+    .footer-cta p { margin: 0; opacity: .7; }
+    .footer-cta .primary-btn { white-space: nowrap; }
+    footer { padding: 12px 0 100px; color: var(--muted); font-size: 12px; text-align: center; }
+
+    .wa-float {
+      position: fixed;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      z-index: 20;
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 18px;
+      background: #20c66a;
+      color: #081b10;
+      box-shadow: 0 16px 35px rgba(12, 134, 65, .3);
+      cursor: pointer;
+    }
+    .wa-float:hover { transform: translateY(-2px); }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2,5,7,.72);
+      backdrop-filter: blur(8px);
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: min(760px, 100%);
+      max-height: min(850px, calc(100dvh - 40px));
+      overflow: auto;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: 0 30px 90px rgba(0,0,0,.45);
+    }
+    .modal-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 22px; border-bottom: 1px solid var(--line); background: var(--surface); }
+    .modal-head h2 { margin: 0; font-size: 20px; }
+    .close-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; }
+    .modal-body { display: grid; grid-template-columns: 1fr .9fr; gap: 24px; padding: 24px; }
+    .order-block { padding: 18px; border-radius: 18px; background: var(--surface-2); }
+    .order-line { display: flex; justify-content: space-between; gap: 16px; }
+    .order-line + .order-line { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .order-line span { color: var(--muted); font-size: 12px; }
+    .order-line strong { font-size: 13px; text-align: right; }
+    .field { margin-top: 16px; }
+    .field label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 800; }
+    .field input { width: 100%; min-height: 48px; padding: 0 13px; border: 1px solid var(--line); border-radius: 12px; outline: none; background: var(--bg); color: var(--text); }
+    .field input:focus { border-color: var(--accent); }
+    .payment-title { margin: 20px 0 10px; font-size: 12px; font-weight: 800; }
+    .payment-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+    .payment-option { min-width: 0; padding: 10px 5px; display: grid; justify-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 11px; text-align: center; font-size: 10px; line-height: 1.15; font-weight: 800; background: transparent; cursor: pointer; }
+    .payment-option svg { width: 20px; height: 20px; }
+    .payment-option.active { border-color: var(--accent); background: rgba(255,107,53,.1); color: var(--accent); }
+    .payment-panel { display: flex; flex-direction: column; }
+    .payment-display { min-height: 250px; padding: 24px; display: grid; place-items: center; border: 1px dashed #c4c4c4; border-radius: 18px; background: #fff; color: #111; text-align: center; }
+    .payment-display .qr-mark { width: 120px; height: 120px; }
+    .payment-display b { display: block; margin-top: 10px; }
+    .payment-display small { color: #666; }
+    .payment-brand { display: none; }
+    .payment-display.is-transfer .qr-mark { display: none; }
+    .payment-display.is-transfer .payment-brand { width: 74px; height: 74px; display: grid; place-items: center; margin: 0 auto 8px; border-radius: 22px; background: #eef2ed; color: #172015; font-size: 17px; font-weight: 800; letter-spacing: -.04em; }
+    .bank-account { display: none; margin-top: 15px; padding: 12px 16px; border-radius: 13px; background: #f0f2ef; color: #1b211d; }
+    .bank-account.show { display: block; }
+    .bank-account span { display: block; color: #687068; font-size: 10px; }
+    .bank-account strong { display: block; margin: 3px 0; font-size: 18px; letter-spacing: .04em; }
+    .bank-account small { display: block; color: #555d55; }
+    .payment-note { margin: 10px 0 16px; color: var(--muted); font-size: 11px; }
+    .confirm-btn { width: 100%; min-height: 52px; padding: 0 16px; border: 0; border-radius: 14px; background: #20c66a; color: #07170d; cursor: pointer; font-weight: 800; }
+    .confirm-btn:disabled { opacity: .55; cursor: not-allowed; }
+    .modal-status { min-height: 22px; margin: 9px 0 0; color: var(--accent-2); font-size: 11px; text-align: center; }
+
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+    .theme-toggle .sun, :root[data-theme="light"] .theme-toggle .moon { display: none; }
+    :root[data-theme="light"] .theme-toggle .sun { display: block; }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) .theme-toggle .moon { display: none; }
+      :root:not([data-theme]) .theme-toggle .sun { display: block; }
+    }
+
+    .bundle-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .bundle-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 24px 24px 64px 24px;
+      background: var(--surface);
+    }
+    .bundle-card.featured { background: var(--lime); color: #172015; border-color: transparent; }
+    .bundle-card.featured .bundle-list, .bundle-card.featured .bundle-price small, .bundle-card.featured .bundle-old { color: #41503c; }
+    .bundle-saving { align-self: flex-start; padding: 7px 10px; border-radius: 9px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; }
+    .bundle-card h3 { margin: 26px 0 8px; font-size: 24px; letter-spacing: -.035em; }
+    .bundle-list { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 13px; }
+    .bundle-list li { display: flex; gap: 9px; padding: 7px 0; border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+    .bundle-list li::before { content: "✓"; color: var(--accent-2); font-weight: 800; }
+    .bundle-price { margin-top: auto; padding-top: 24px; }
+    .bundle-old { display: block; color: var(--muted); font-size: 12px; text-decoration: line-through; }
+    .bundle-price strong { display: block; margin: 2px 0 15px; font-size: 28px; }
+    .bundle-card .buy-btn { width: 100%; }
+
+    .tutorial-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .tutorial-card { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); overflow: hidden; }
+    .tutorial-toggle { width: 100%; padding: 22px; display: flex; align-items: center; gap: 15px; border: 0; background: transparent; color: var(--text); text-align: left; cursor: pointer; }
+    .tutorial-icon { flex: 0 0 auto; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 15px; background: var(--surface-2); color: var(--accent); }
+    .tutorial-toggle span:nth-child(2) { flex: 1; }
+    .tutorial-toggle strong { display: block; font-size: 16px; }
+    .tutorial-toggle small { color: var(--muted); }
+    .tutorial-toggle > svg { transition: transform .2s ease; }
+    .tutorial-card.open .tutorial-toggle > svg { transform: rotate(180deg); }
+    .tutorial-steps { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .tutorial-card.open .tutorial-steps { max-height: 420px; }
+    .tutorial-steps ol { margin: 0; padding: 0 22px 22px; list-style: none; counter-reset: tutorial; }
+    .tutorial-steps li { counter-increment: tutorial; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 0; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+    .tutorial-steps li::before { content: counter(tutorial); width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; }
+    .video-tutorial-card { display: flex; flex-direction: column; }
+    .video-thumb { position: relative; min-height: 164px; display: grid; place-items: center; overflow: hidden; border: 0; background: linear-gradient(145deg, #24313a, #101419); color: #fff; cursor: pointer; }
+    .video-thumb::before { content: ""; position: absolute; width: 170px; height: 170px; left: -55px; bottom: -90px; border: 1px solid rgba(211,236,114,.32); border-radius: 50%; }
+    .video-thumb::after { content: ""; position: absolute; inset: 20px; border: 1px solid rgba(255,255,255,.1); border-radius: 15px; }
+    .video-screen-mark { position: absolute; left: 28px; top: 28px; color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .04em; }
+    .video-play { position: relative; z-index: 1; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); box-shadow: 0 12px 28px rgba(255,112,64,.3); transition: transform .2s ease; }
+    .video-thumb:hover .video-play { transform: scale(1.06); }
+    .video-card-copy { padding: 20px; }
+    .video-card-copy h3 { margin: 0 0 6px; font-size: 17px; line-height: 1.35; }
+    .video-card-copy p { margin: 0; color: var(--muted); font-size: 12px; }
+    .video-modal .modal { width: min(820px, 100%); }
+    .video-modal-body { padding: 22px; }
+    .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 17px; background: #050607; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video-modal-body p { margin: 15px 2px 0; color: var(--muted); font-size: 13px; }
+
+    .invoice-modal .modal { width: min(560px, 100%); }
+    .invoice-wrap { padding: 24px; }
+    .receipt { position: relative; overflow: hidden; padding: 28px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+    .receipt::before, .receipt::after { content: ""; position: absolute; left: -10px; right: -10px; height: 10px; background: radial-gradient(circle at 5px -1px, transparent 6px, var(--surface) 6.5px); background-size: 20px 10px; }
+    .receipt::before { top: -1px; transform: rotate(180deg); }
+    .receipt::after { bottom: -1px; }
+    .receipt-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px dashed var(--line); }
+    .receipt-logo { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px; background: var(--lime); color: #172015; font-weight: 800; }
+    .receipt-brand strong { display: block; font-size: 15px; }
+    .receipt-brand small { color: var(--muted); font-size: 10px; }
+    .receipt-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px dashed var(--line); }
+    .receipt-meta span, .receipt-row span { display: block; color: var(--muted); font-size: 10px; }
+    .receipt-meta strong { display: block; margin-top: 3px; font-size: 12px; overflow-wrap: anywhere; }
+    .receipt-details { padding: 16px 0; border-bottom: 1px dashed var(--line); }
+    .receipt-row { display: flex; justify-content: space-between; gap: 18px; padding: 6px 0; }
+    .receipt-row strong { max-width: 62%; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+    .receipt-totals { padding-top: 14px; }
+    .receipt-total { margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .receipt-total span, .receipt-total strong { color: var(--text); font-size: 16px; }
+    .invoice-actions { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-top: 16px; }
+    .screenshot-btn { min-height: 50px; border: 1px solid var(--line); border-radius: 14px; background: transparent; color: var(--text); font-weight: 800; cursor: pointer; }
+    .screenshot-help { display: none; margin: 12px 0 0; padding: 11px 13px; border-radius: 11px; background: var(--surface-2); color: var(--muted); font-size: 11px; }
+    .screenshot-help.show { display: block; }
+
+    .reseller-cta { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; padding: 42px; border-radius: 28px 28px 76px 28px; background: var(--surface-2); border: 1px solid var(--line); }
+    .reseller-cta h2 { margin: 0 0 10px; font-size: clamp(30px, 4vw, 48px); letter-spacing: -.04em; }
+    .reseller-cta p { max-width: 700px; margin: 0; color: var(--muted); }
+    .reseller-points { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .reseller-points span { padding: 7px 9px; border-radius: 9px; background: var(--surface); color: var(--muted); font-size: 11px; font-weight: 700; }
+    textarea, select { font: inherit; }
+    .field textarea, .field select { width: 100%; min-height: 48px; padding: 12px 13px; border: 1px solid var(--line); border-radius: 12px; outline: none; background: var(--bg); color: var(--text); }
+    .field textarea { min-height: 110px; resize: vertical; }
+    .reseller-modal .modal-body { display: block; }
+    .reseller-submit { margin-top: 20px; }
+
+    .voucher-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .voucher-row input { min-width: 0; text-transform: uppercase; }
+    .voucher-btn { min-width: 82px; border: 1px solid var(--accent); border-radius: 12px; background: transparent; color: var(--accent); font-weight: 800; cursor: pointer; }
+    .voucher-message { min-height: 20px; margin: 6px 0 0; font-size: 11px; color: var(--muted); }
+    .voucher-message.success { color: var(--accent-2); }
+    .voucher-message.error { color: var(--danger); }
+    .discount-line { display: none; }
+    .discount-line.show { display: flex; }
+    .discount-line strong { color: var(--accent-2); }
+
+    .purchase-toast {
+      position: fixed;
+      left: max(20px, env(safe-area-inset-left));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      z-index: 35;
+      width: min(340px, calc(100vw - 88px));
+      display: none;
+      grid-template-columns: 42px 1fr auto;
+      gap: 11px;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .purchase-toast.show { display: grid; animation: toastIn .35s ease both; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .purchase-toast-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: var(--lime); color: #172015; }
+    .purchase-toast b { display: block; font-size: 12px; }
+    .purchase-toast small { color: var(--muted); font-size: 10px; }
+    .purchase-toast button { align-self: start; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+
+
+
+    /* New commerce, support, and trust modules */
+    .server-wrap { position: relative; }
+    .server-status-btn {
+      display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text);
+      font-size: 12px; font-weight: 800; cursor: pointer;
+    }
+    .server-dot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: #32c06e; box-shadow: 0 0 0 0 rgba(50,192,110,.38); animation: serverPulse 1.8s infinite; }
+    @keyframes serverPulse { 70% { box-shadow: 0 0 0 7px rgba(50,192,110,0); } 100% { box-shadow: 0 0 0 0 rgba(50,192,110,0); } }
+    .server-panel {
+      position: absolute; left: 0; top: calc(100% + 10px); z-index: 45; width: 280px; display: none;
+      padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow);
+    }
+    .server-panel.open { display: block; }
+    .server-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .server-panel-head strong { font-size: 13px; }
+    .server-panel-head small { color: var(--muted); font-size: 9px; }
+    .service-status { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+    .service-status span { font-size: 12px; font-weight: 700; }
+    .service-status b { color: var(--accent-2); font-size: 11px; }
+    .service-status small { grid-column: 1 / -1; color: var(--muted); font-size: 9px; }
+    .lang-toggle { display: inline-flex; height: 40px; padding: 3px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .lang-toggle button { min-width: 33px; padding: 0 7px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 800; cursor: pointer; }
+    .lang-toggle button.active { background: var(--text); color: var(--bg); }
+
+    .flash-sale { padding-top: 72px; }
+    .flash-shell { overflow: hidden; padding: 28px; border-radius: 28px 28px 70px 28px; background: #e94722; color: #fff; box-shadow: 0 24px 70px rgba(233,71,34,.2); }
+    .flash-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+    .flash-head h2 { margin: 0 0 5px; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.04em; }
+    .flash-head p { margin: 0; color: rgba(255,255,255,.8); font-size: 13px; }
+    .countdown { display: flex; align-items: center; gap: 7px; }
+    .count-unit { min-width: 58px; padding: 9px 8px; border-radius: 13px; background: rgba(25,18,14,.3); text-align: center; }
+    .count-unit strong { display: block; font-size: 20px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .count-unit small { font-size: 8px; text-transform: uppercase; letter-spacing: .07em; opacity: .76; }
+    .count-sep { font-weight: 800; opacity: .65; }
+    .flash-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+    .flash-card { display: flex; flex-direction: column; min-height: 250px; padding: 18px; border-radius: 18px 18px 42px 18px; background: #fff; color: #171b18; }
+    .flash-card-label { align-self: flex-start; padding: 5px 8px; border-radius: 7px; background: #ffe5da; color: #a42f0d; font-size: 9px; font-weight: 800; }
+    .flash-card h3 { margin: 18px 0 7px; font-size: 16px; line-height: 1.25; }
+    .flash-price { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+    .flash-price del { color: #7a817a; font-size: 11px; }
+    .flash-price strong { color: #d6401e; font-size: 20px; }
+    .sale-progress { height: 7px; margin: 13px 0 6px; overflow: hidden; border-radius: 99px; background: #e7e9e5; }
+    .sale-progress span { display: block; width: var(--sold); height: 100%; border-radius: inherit; background: #e94722; }
+    .flash-sold { margin-bottom: 13px; color: #555d55; font-size: 9px; font-weight: 800; }
+    .flash-card .buy-btn { width: 100%; background: #171b18; }
+
+    .stock-badge { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; margin-top: 13px; padding: 6px 9px; border-radius: 9px; background: #ffdfd2; color: #9b2d0c; font-size: 10px; font-weight: 800; }
+    :root[data-theme="dark"] .stock-badge { background: #4d2618; color: #ffc0a6; }
+
+    .comparison-shell { border: 1px solid var(--line); border-radius: 26px; overflow: hidden; background: var(--surface); }
+    .comparison-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .comparison-table th, .comparison-table td { padding: 16px 14px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; font-size: 12px; }
+    .comparison-table tr:last-child th, .comparison-table tr:last-child td { border-bottom: 0; }
+    .comparison-table th:last-child, .comparison-table td:last-child { border-right: 0; }
+    .comparison-table tbody th { color: var(--muted); text-align: left; }
+    .comparison-table thead th { position: relative; padding-top: 25px; font-size: 15px; }
+    .comparison-table .popular-col { background: color-mix(in srgb, var(--lime) 13%, var(--surface)); }
+    .popular-flag { display: block; width: fit-content; margin: -13px auto 8px; padding: 4px 7px; border-radius: 6px; background: var(--lime); color: #1b2118; font-size: 8px; font-weight: 800; }
+    .comparison-table .buy-btn { width: 100%; }
+    .compare-mobile { display: none; }
+    .compare-mobile-card { padding: 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); }
+    .compare-mobile-card.featured { border-color: var(--accent); }
+    .compare-mobile-card h3 { margin: 8px 0 14px; font-size: 20px; }
+    .compare-mobile-card dl { margin: 0 0 17px; }
+    .compare-mobile-card dl div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); }
+    .compare-mobile-card dt { color: var(--muted); font-size: 11px; }
+    .compare-mobile-card dd { margin: 0; font-size: 12px; font-weight: 800; }
+    .compare-mobile-card .buy-btn { width: 100%; }
+
+    .referral-shell { display: grid; grid-template-columns: 1.05fr .95fr; gap: 32px; align-items: center; padding: 38px; border: 1px solid var(--line); border-radius: 28px 28px 76px 28px; background: var(--surface-2); }
+    .referral-copy h2 { margin: 0 0 11px; font-size: clamp(30px,4vw,48px); letter-spacing: -.04em; }
+    .referral-copy > p { margin: 0; color: var(--muted); }
+    .referral-benefits { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 22px; }
+    .referral-benefit { padding: 16px; border-radius: 16px; background: var(--surface); }
+    .referral-benefit strong { display: block; color: var(--accent); font-size: 22px; }
+    .referral-benefit span { color: var(--muted); font-size: 11px; }
+    .referral-form { padding: 22px; border-radius: 22px; background: var(--surface); }
+    .referral-form h3 { margin: 0 0 5px; font-size: 18px; }
+    .referral-form > p { margin: 0 0 12px; color: var(--muted); font-size: 11px; }
+    .referral-form .confirm-btn { margin-top: 18px; }
+
+    .chat-launcher { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: calc(max(20px, env(safe-area-inset-bottom)) + 70px); z-index: 31; width: 58px; height: 58px; display: grid; place-items: center; border: 0; border-radius: 18px; background: var(--accent); color: #fff; box-shadow: 0 16px 35px rgba(187,60,22,.28); cursor: pointer; }
+    .chat-launcher .chat-unread { position: absolute; right: -3px; top: -4px; width: 19px; height: 19px; display: grid; place-items: center; border-radius: 50%; background: var(--lime); color: #172015; font-size: 9px; font-weight: 800; }
+    .chat-window { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: calc(max(20px, env(safe-area-inset-bottom)) + 140px); z-index: 40; width: min(350px, calc(100vw - 28px)); display: none; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); }
+    .chat-window.open { display: block; animation: toastIn .25s ease both; }
+    .chat-head { display: flex; align-items: center; gap: 11px; padding: 15px; background: var(--surface-2); }
+    .chat-avatar { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 13px; background: var(--lime); color: #172015; font-weight: 800; }
+    .chat-head div { flex: 1; }
+    .chat-head strong { display: block; font-size: 12px; }
+    .chat-head small { color: var(--accent-2); font-size: 10px; }
+    .chat-close { border: 0; background: transparent; color: var(--muted); cursor: pointer; }
+    .chat-body { max-height: 270px; overflow: auto; padding: 15px; }
+    .chat-message { width: fit-content; max-width: 88%; margin-bottom: 9px; padding: 10px 12px; border-radius: 14px 14px 14px 4px; background: var(--surface-2); color: var(--text); font-size: 11px; line-height: 1.55; }
+    .chat-message.user { margin-left: auto; border-radius: 14px 14px 4px 14px; background: var(--accent); color: #fff; }
+    .chat-quick { display: flex; gap: 7px; flex-wrap: wrap; padding: 0 15px 15px; }
+    .chat-quick button { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--text); font-size: 10px; font-weight: 800; cursor: pointer; }
+    .chat-quick button:hover { border-color: var(--accent); color: var(--accent); }
+
+    .blog-head-action { flex: 0 0 auto; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .blog-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 330px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 22px 22px 54px 22px;
+      background: var(--surface);
+      transition: transform .3s cubic-bezier(.22,1,.36,1), border-color .3s ease, box-shadow .3s ease;
+    }
+    .blog-card:nth-child(2n) { border-radius: 22px 54px 22px 22px; }
+    .blog-card:hover { transform: translateY(-7px); border-color: color-mix(in srgb, var(--accent-2) 56%, var(--line)); box-shadow: 0 18px 42px rgba(0,0,0,.26); }
+    .blog-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .blog-category { display: inline-flex; padding: 7px 9px; border-radius: 9px; background: var(--lime); color: #1b2118; font-size: 10px; font-weight: 800; }
+    .blog-date { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .blog-card h3 { margin: 24px 0 10px; font-size: 20px; line-height: 1.3; letter-spacing: -.025em; }
+    .blog-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .blog-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto; padding-top: 24px; }
+    .read-time { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 10px; font-weight: 700; }
+    .article-btn { padding: 10px 13px; border: 1px solid var(--line); border-radius: 11px; background: transparent; color: var(--text); font-size: 11px; font-weight: 800; cursor: pointer; }
+    .article-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .article-modal .modal { width: min(720px, 100%); }
+    .article-modal .modal-head { align-items: flex-start; }
+    .article-modal .modal-head > div { min-width: 0; }
+    .article-modal .modal-head h2 { margin-top: 8px; font-size: clamp(21px, 3vw, 29px); line-height: 1.22; }
+    .article-modal-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+    .article-modal-meta time, .article-modal-meta span:not(.blog-category) { color: var(--muted); font-size: 10px; font-weight: 700; }
+    .article-body { display: block; padding: 26px 28px 30px; }
+    .article-body p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.85; }
+    .article-body p + p { margin-top: 18px; }
+
+    @media (max-width: 1050px) { .product-grid, .panel-grid, .blog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .tutorial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 900px) {
+      .flash-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .referral-shell { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 44px; border-radius: 26px 26px 70px 26px; }
+      .checkout-preview { justify-self: center; width: min(420px, 100%); transform: none; }
+      .product-grid, .panel-grid, .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bundle-grid, .tutorial-grid { grid-template-columns: 1fr; }
+      .flow-strip { grid-template-columns: repeat(2, 1fr); }
+      .stories-layout, .faq-layout { grid-template-columns: 1fr; }
+      .reseller-cta { grid-template-columns: 1fr; }
+      .modal-body { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 24px, 1180px); }
+      .site-nav { height: 62px; gap: 12px; }
+      .nav-actions { gap: 6px; }
+      .nav-cta { padding: 9px 12px; font-size: 12px; }
+      .theme-toggle { width: 40px; height: 40px; }
+      .server-status-btn { width: auto; padding: 0 9px; justify-content: center; font-size: 10px; }
+      .server-status-btn .status-label { display: inline; }
+      .server-panel { left: 0; width: min(280px, calc(100vw - 24px)); }
+      .lang-toggle { height: 38px; }
+      .nav-cta { display: none; }
+      .flash-sale { padding-top: 54px; }
+      .flash-shell { padding: 22px 14px; border-radius: 22px 22px 48px 22px; }
+      .flash-head { display: block; }
+      .countdown { margin-top: 18px; }
+      .count-unit { min-width: 52px; }
+      .flash-grid { grid-template-columns: 1fr; }
+      .comparison-shell { display: none; }
+      .compare-mobile { display: grid; gap: 12px; }
+      .referral-shell { padding: 26px 18px; border-radius: 22px 22px 52px 22px; }
+      .referral-benefits { grid-template-columns: 1fr 1fr; }
+      .chat-launcher { right: max(14px, env(safe-area-inset-right)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 62px); width: 50px; height: 50px; border-radius: 15px; }
+      .chat-window { right: 14px; bottom: calc(max(16px, env(safe-area-inset-bottom)) + 122px); }
+      .hero { min-height: auto; padding: 34px 22px 28px; gap: 34px; border-radius: 22px 22px 52px 22px; }
+      h1 { font-size: clamp(39px, 12vw, 56px); }
+      .hero-copy > p { font-size: 15px; }
+      .hero-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; }
+      .float-badge { right: 4px; top: -18px; }
+      section { padding-top: 72px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+      .catalog-toolbar { grid-template-columns: 1fr; }
+      .filters { justify-content: start; }
+      .product-grid, .panel-grid, .blog-grid { grid-template-columns: 1fr; }
+      .blog-card { min-height: 300px; padding: 21px; }
+      .blog-head-action { width: 100%; margin-top: 18px; }
+      .article-body { padding: 22px 20px 28px; }
+      .panel-showcase { padding: 22px 14px; border-radius: 22px 22px 48px 22px; }
+      .panel-feature-head, .services-title { display: block; }
+      .panel-total { width: fit-content; margin-top: 18px; }
+      .services-title p { margin-top: 8px; text-align: left; }
+      .product-card { min-height: 330px; }
+      .flow-strip { grid-template-columns: 1fr; }
+      .stories-title, .testimonial-shell { padding: 26px; }
+      .testimonial-shell { padding-bottom: 82px; }
+      .testimonial-controls { right: 24px; bottom: 22px; }
+      .faq-layout { gap: 24px; }
+      .bundle-card { min-height: 330px; padding: 22px; }
+      .reseller-cta { padding: 28px 22px; border-radius: 22px 22px 52px 22px; }
+      .footer-cta { margin-top: 72px; padding: 30px 24px; display: block; }
+      .footer-cta .primary-btn { width: 100%; margin-top: 22px; }
+      .modal-backdrop { align-items: flex-end; padding: 0; }
+      .modal { max-height: 92dvh; border-radius: 24px 24px 0 0; }
+      .modal-body { padding: 18px; }
+      .payment-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .invoice-wrap { padding: 14px; }
+      .receipt { padding: 22px 18px; }
+      .receipt-meta { grid-template-columns: 1fr; gap: 10px; }
+      .invoice-actions { grid-template-columns: 1fr; }
+      .wa-float { position: fixed; left: auto; right: max(14px, env(safe-area-inset-right)); top: auto; bottom: max(16px, env(safe-area-inset-bottom)); width: 50px; height: 50px; border-radius: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+      .reveal, .reveal.is-visible { opacity: 1; transform: none; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-bar">MOCKUP DESAIN • stok dan QRIS masih contoh tampilan</div>
+
+  <header class="container site-nav" aria-label="Navigasi utama">
+    <div class="server-wrap">
+      <button class="server-status-btn" id="server-status-btn" type="button" aria-expanded="false" aria-controls="server-panel"><span class="server-dot" aria-hidden="true"></span><span class="status-label" data-i18n data-id="Server: Online" data-en="Server: Online">Server: Online</span></button>
+      <div class="server-panel" id="server-panel" role="dialog" aria-label="Status layanan contoh">
+        <div class="server-panel-head"><strong data-i18n data-id="Status layanan" data-en="Service status">Status layanan</strong><small data-i18n data-id="Data contoh" data-en="Sample data">Data contoh</small></div>
+        <div class="service-status"><span>Panel Pterodactyl</span><b>Online</b><small>Uptime 99,98% • contoh</small></div>
+        <div class="service-status"><span>Bot WhatsApp</span><b>Online</b><small>Uptime 99,91% • contoh</small></div>
+        <div class="service-status"><span>API</span><b>Online</b><small>Uptime 99,95% • contoh</small></div>
+      </div>
+    </div>
+    <nav class="nav-links" aria-label="Bagian halaman">
+      <a href="#flash-sale" data-i18n data-id="Promo" data-en="Deals">Promo</a>
+      <a href="#katalog" data-i18n data-id="Katalog" data-en="Catalog">Katalog</a>
+      <a href="#comparison" data-i18n data-id="Bandingkan" data-en="Compare">Bandingkan</a>
+      <a href="#referral" data-i18n data-id="Referral" data-en="Referral">Referral</a>
+      <a href="#blog" data-i18n data-id="Blog" data-en="Blog">Blog</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang-toggle" role="group" aria-label="Pilih bahasa"><button class="active" type="button" data-lang="id">ID</button><button type="button" data-lang="en">EN</button></div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ganti ke mode terang" title="Ganti tema">
+        <svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 15.2A8 8 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <svg class="sun" width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="nav-cta" type="button" data-scroll="katalog" data-i18n data-id="Lihat produk" data-en="View products">Lihat produk</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n data-id="Belanja di Habibi Store" data-en="Shop at Habibi Store">Belanja di Habibi Store</span>
+          <h1 id="hero-title" data-i18n data-id="Layanan digital, checkout tanpa ribet." data-en="Digital services, effortless checkout.">Layanan digital, checkout tanpa ribet.</h1>
+          <p data-i18n data-id="Temukan panel hosting, bot WhatsApp, layanan sosial media, dan produk digital lain dengan proses order yang singkat dan jelas." data-en="Find hosting panels, WhatsApp bots, social media services, and other digital products through a short, clear ordering flow.">Temukan panel hosting, bot WhatsApp, layanan sosial media, dan produk digital lain dengan proses order yang singkat dan jelas.</p>
+          <div class="hero-actions">
+            <button class="primary-btn" type="button" data-scroll="katalog" data-i18n data-id="Jelajahi katalog" data-en="Browse catalog">Jelajahi katalog</button>
+            <button class="secondary-btn" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000" data-i18n data-id="Coba alur checkout" data-en="Try checkout">Coba alur checkout</button>
+          </div>
+          <div class="hero-metrics" aria-label="Statistik contoh toko">
+            <div class="metric"><strong><span data-counter="1000">0</span>+</strong><span>Penjualan</span></div>
+            <div class="metric"><strong><span data-counter="650">0</span>+</strong><span>Pelanggan</span></div>
+            <div class="metric"><strong><span data-counter="27">0</span></strong><span>Produk tampil</span></div>
+            <div class="metric"><strong>24/7</strong><span>Dukungan admin</span></div>
+          </div>
+        </div>
+
+        <div class="checkout-preview" aria-label="Contoh tampilan checkout">
+          <span class="float-badge">Checkout 4 langkah</span>
+          <div class="preview-top"><strong>Ringkasan pesanan</strong><span class="preview-step">Langkah 2 dari 4</span></div>
+          <div class="preview-product">
+            <div class="preview-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div><b>Panel Pterodactyl 4GB</b><small>RAM 4GB • CPU 100%</small></div>
+            <strong>Rp5.000</strong>
+          </div>
+          <div class="mini-qr">
+            <div class="mini-qr-inner">
+              <svg class="qr-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="6" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="64" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="6" y="64" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><path d="M48 8v16h12V44H44v14h14v12H46v22M62 54h30v16H74v22M88 78v14" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/></svg>
+              <b>QRIS Preview</b><small>Bukan kode pembayaran aktif</small>
+            </div>
+          </div>
+          <button class="preview-confirm" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000">Konfirmasi via WhatsApp</button>
+        </div>
+      </section>
+    </div>
+
+
+
+    <section id="flash-sale" class="container flash-sale" aria-labelledby="flash-title">
+      <div class="flash-shell reveal">
+        <div class="flash-head">
+          <div><h2 id="flash-title" data-i18n data-id="Flash Sale Hari Ini" data-en="Today's Flash Sale">Flash Sale Hari Ini</h2><p data-i18n data-id="Harga spesial berakhir saat hari berganti." data-en="Special prices end at midnight.">Harga spesial berakhir saat hari berganti.</p></div>
+          <div class="countdown" aria-label="Waktu flash sale tersisa"><span class="count-unit"><strong id="count-hours">00</strong><small data-i18n data-id="Jam" data-en="Hours">Jam</small></span><span class="count-sep">:</span><span class="count-unit"><strong id="count-minutes">00</strong><small data-i18n data-id="Menit" data-en="Minutes">Menit</small></span><span class="count-sep">:</span><span class="count-unit"><strong id="count-seconds">00</strong><small data-i18n data-id="Detik" data-en="Seconds">Detik</small></span></div>
+        </div>
+        <div class="flash-grid">
+          <article class="flash-card"><span class="flash-card-label">−30%</span><h3>Panel Pterodactyl 4GB</h3><div class="flash-price"><del>Rp5.000</del><strong>Rp3.500</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:80%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 80%" data-en="80% sold">Terjual 80%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Panel Pterodactyl 4GB" data-demo-price="3500" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
+          <article class="flash-card"><span class="flash-card-label">−25%</span><h3>Panel Pterodactyl 8GB</h3><div class="flash-price"><del>Rp9.000</del><strong>Rp6.750</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:68%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 68%" data-en="68% sold">Terjual 68%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Panel Pterodactyl 8GB" data-demo-price="6750" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
+          <article class="flash-card"><span class="flash-card-label">−20%</span><h3>Sewa Bot WhatsApp 30 Hari</h3><div class="flash-price"><del>Rp25.000</del><strong>Rp20.000</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:54%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 54%" data-en="54% sold">Terjual 54%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Sewa Bot WhatsApp 30 Hari" data-demo-price="20000" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
+          <article class="flash-card"><span class="flash-card-label">−25%</span><h3>Bundle Reseller</h3><div class="flash-price"><del>Rp31.000</del><strong>Rp23.250</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:73%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 73%" data-en="73% sold">Terjual 73%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Bundle Reseller" data-demo-price="23250" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="katalog" class="container" aria-labelledby="catalog-title">
+      <div class="section-head">
+        <h2 id="catalog-title" data-i18n data-id="Semua layanan, satu katalog" data-en="Every service, one catalog">Semua layanan, satu katalog</h2>
+        <p>Panel Pterodactyl menjadi produk utama, disusul layanan digital lainnya. Semua 27 pilihan langsung terlihat dan bisa difilter.</p>
+      </div>
+      <div class="catalog-toolbar reveal">
+        <div class="search-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <label class="sr-only" for="catalog-search">Cari produk</label>
+          <input id="catalog-search" type="search" placeholder="Cari dari 27 produk yang tampil…" autocomplete="off" />
+        </div>
+        <div class="filters" role="group" aria-label="Filter kategori">
+          <button class="filter-btn active" type="button" data-filter="all">Semua</button>
+          <button class="filter-btn" type="button" data-filter="panel">Panel</button>
+          <button class="filter-btn" type="button" data-filter="bot">Sewa Bot</button>
+          <button class="filter-btn" type="button" data-filter="script">Script</button>
+          <button class="filter-btn" type="button" data-filter="sosmed">Sosmed</button>
+          <button class="filter-btn" type="button" data-filter="nokos">Nokos</button>
+          <button class="filter-btn" type="button" data-filter="hosting">Hosting</button>
+          <button class="filter-btn" type="button" data-filter="desain">Desain</button>
+          <button class="filter-btn" type="button" data-filter="premium">Premium</button>
+        </div>
+      </div>
+      <p class="catalog-count reveal"><strong id="catalog-total">27 produk</strong> ditampilkan sekaligus — filter hanya untuk mempercepat pencarian.</p>
+
+
+      <div class="panel-showcase" id="panel-showcase">
+        <div class="panel-feature-head reveal">
+          <div>
+            <span class="panel-label">Produk utama</span>
+            <h3>Panel Pterodactyl lengkap</h3>
+            <p>Pilih resource sesuai kebutuhan. Setiap paket menampilkan alokasi RAM, CPU, dan harga secara langsung.</p>
+          </div>
+          <div class="panel-total"><strong>13</strong><span>pilihan paket</span></div>
+        </div>
+        <div class="panel-grid">
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 1GB" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-lime" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Pemula</span>
+          </div>
+          <h3>Panel Pterodactyl 1GB</h3>
+          <p>Cocok untuk bot ringan dan uji coba.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 1GB"><span><small>RAM</small><b>1GB</b></span><span><small>CPU</small><b>40%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp2.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 1GB" data-demo-price="2000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 2GB" style="--reveal-delay:55ms">
+          <div class="card-top">
+            <div class="product-art art-blue" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Hemat</span>
+          </div>
+          <h3>Panel Pterodactyl 2GB</h3>
+          <p>Ruang ekstra untuk bot kecil harian.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 2GB"><span><small>RAM</small><b>2GB</b></span><span><small>CPU</small><b>60%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp3.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 2GB" data-demo-price="3000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 3GB" style="--reveal-delay:110ms">
+          <div class="card-top">
+            <div class="product-art art-mint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Stabil</span>
+          </div>
+          <h3>Panel Pterodactyl 3GB</h3>
+          <p>Untuk bot aktif dengan beban ringan.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 3GB"><span><small>RAM</small><b>3GB</b></span><span><small>CPU</small><b>80%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp4.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 3GB" data-demo-price="4000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 4GB" style="--reveal-delay:165ms">
+          <div class="card-top">
+            <div class="product-art art-orange" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge hot">Populer</span>
+          </div>
+          <h3>Panel Pterodactyl 4GB</h3>
+          <p>Pilihan seimbang untuk bot komunitas.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 4GB"><span><small>RAM</small><b>4GB</b></span><span><small>CPU</small><b>100%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp5.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 5GB" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-yellow" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Leluasa</span>
+          </div>
+          <h3>Panel Pterodactyl 5GB</h3>
+          <p>Lebih lega untuk fitur dan proses tambahan.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 5GB"><span><small>RAM</small><b>5GB</b></span><span><small>CPU</small><b>120%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp6.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 5GB" data-demo-price="6000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 6GB" style="--reveal-delay:55ms">
+          <div class="card-top">
+            <div class="product-art art-pink" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Kencang</span>
+          </div>
+          <h3>Panel Pterodactyl 6GB</h3>
+          <p>Untuk bot aktif dengan banyak fitur.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 6GB"><span><small>RAM</small><b>6GB</b></span><span><small>CPU</small><b>140%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp7.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 6GB" data-demo-price="7000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 7GB" style="--reveal-delay:110ms">
+          <div class="card-top">
+            <div class="product-art art-lime" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Pro</span>
+          </div>
+          <h3>Panel Pterodactyl 7GB</h3>
+          <p>Kapasitas besar untuk penggunaan rutin.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 7GB"><span><small>RAM</small><b>7GB</b></span><span><small>CPU</small><b>160%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp8.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 7GB" data-demo-price="8000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 8GB" style="--reveal-delay:165ms">
+          <div class="card-top">
+            <div class="product-art art-blue" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Power</span>
+          </div>
+          <h3>Panel Pterodactyl 8GB</h3>
+          <p>Menangani beban bot yang lebih padat.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 8GB"><span><small>RAM</small><b>8GB</b></span><span><small>CPU</small><b>180%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp9.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 8GB" data-demo-price="9000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 9GB" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-mint" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Heavy</span>
+          </div>
+          <h3>Panel Pterodactyl 9GB</h3>
+          <p>Resource tinggi untuk aktivitas intensif.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 9GB"><span><small>RAM</small><b>9GB</b></span><span><small>CPU</small><b>200%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp10.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 9GB" data-demo-price="10000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl 10GB" style="--reveal-delay:55ms">
+          <div class="card-top">
+            <div class="product-art art-yellow" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Max</span>
+          </div>
+          <h3>Panel Pterodactyl 10GB</h3>
+          <p>Paket besar sebelum kelas unlimited.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl 10GB"><span><small>RAM</small><b>10GB</b></span><span><small>CPU</small><b>220%</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp11.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 10GB" data-demo-price="11000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Panel Pterodactyl Unlimited" style="--reveal-delay:110ms">
+          <div class="card-top">
+            <div class="product-art art-orange" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge hot">Terlaris</span>
+          </div>
+          <h3>Panel Pterodactyl Unlimited</h3>
+          <p>Resource tanpa batas paket untuk kebutuhan penuh.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Panel Pterodactyl Unlimited"><span><small>RAM</small><b>Unlimited</b></span><span><small>CPU</small><b>Unlimited</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp13.000</strong></div><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl Unlimited" data-demo-price="13000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Reseller Panel" style="--reveal-delay:165ms">
+          <div class="card-top">
+            <div class="product-art art-pink" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Bisnis</span>
+          </div>
+          <h3>Reseller Panel</h3>
+          <p>Buat dan kelola akun panel untuk pelangganmu.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Reseller Panel"><span><small>RAM</small><b>Mengikuti paket yang dibuat</b></span><span><small>CPU</small><b>Mengikuti paket yang dibuat</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp16.000</strong></div><button class="buy-btn" type="button" data-demo-product="Reseller Panel" data-demo-price="16000">Beli</button></div>
+        </article>
+        <article class="product-card panel-card reveal" data-category="panel" data-name="Admin Panel" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-lime" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge hot">Full akses</span>
+          </div>
+          <h3>Admin Panel</h3>
+          <p>Kontrol admin lengkap untuk pengelolaan panel.</p>
+          <div class="panel-specs" aria-label="Spesifikasi Admin Panel"><span><small>RAM</small><b>Mengikuti alokasi node</b></span><span><small>CPU</small><b>Mengikuti alokasi node</b></span></div>
+          <div class="card-bottom"><div class="price"><small>Harga paket</small><strong>Rp18.000</strong></div><button class="buy-btn" type="button" data-demo-product="Admin Panel" data-demo-price="18000">Beli</button></div>
+        </article>
+        </div>
+      </div>
+
+      <div class="services-title reveal" id="services-title">
+        <div><span>Layanan lainnya</span><h3>Produk digital pilihan</h3></div>
+        <p>Bot WhatsApp, script, sosial media, hosting, desain, dan akun premium.</p>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+
+
+        <article class="product-card reveal" data-category="bot" data-name="Sewa Bot WhatsApp 7 Hari" style="--reveal-delay:140ms">
+          <div class="card-top">
+            <div class="product-art art-blue" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Praktis</span>
+          </div>
+          <h3>Sewa Bot WhatsApp 7 Hari</h3>
+          <p>Bot grup siap pakai untuk moderasi, hiburan, unduhan, dan komunitas.</p>
+          <div class="product-meta"><span class="meta-chip">7 hari</span><span class="meta-chip">Siap pakai</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp10.000</strong></div><button class="buy-btn" type="button" data-demo-product="Sewa Bot WhatsApp 7 Hari" data-demo-price="10000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="bot" data-name="Sewa Bot WhatsApp 30 Hari" style="--reveal-delay:210ms">
+          <div class="card-top">
+            <div class="product-art art-pink" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge hot">Populer</span>
+          </div>
+          <h3>Sewa Bot WhatsApp 30 Hari</h3>
+          <p>Paket bulanan dengan fitur lengkap dan bantuan setup dari admin.</p>
+          <div class="product-meta"><span class="meta-chip">30 hari</span><span class="meta-chip">Full fitur</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp25.000</strong></div><button class="buy-btn" type="button" data-demo-product="Sewa Bot WhatsApp 30 Hari" data-demo-price="25000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="script" data-name="Jasa Install Script Bot" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-mint" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Siap jalan</span>
+          </div>
+          <h3>Jasa Install Script Bot</h3>
+          <p>Pemasangan script bot ke panel sampai siap dijalankan sesuai kebutuhan.</p>
+          <div class="product-meta"><span class="meta-chip">Instalasi</span><span class="meta-chip">Bantuan setup</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp20.000</strong></div><button class="buy-btn" type="button" data-demo-product="Jasa Install Script Bot" data-demo-price="20000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="script" data-name="Jasa Fix & Custom Script" style="--reveal-delay:70ms">
+          <div class="card-top">
+            <div class="product-art art-yellow" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Custom</span>
+          </div>
+          <h3>Jasa Fix & Custom Script</h3>
+          <p>Perbaikan error atau penyesuaian fitur script berdasarkan tingkat pengerjaan.</p>
+          <div class="product-meta"><span class="meta-chip">Fix bug</span><span class="meta-chip">Custom fitur</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp35.000</strong></div><button class="buy-btn" type="button" data-demo-product="Jasa Fix & Custom Script" data-demo-price="35000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="sosmed" data-name="Suntik Followers Instagram" style="--reveal-delay:140ms">
+          <div class="card-top">
+            <div class="product-art art-pink" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Favorit</span>
+          </div>
+          <h3>Suntik Followers Instagram</h3>
+          <p>Paket penambahan followers dengan jumlah yang bisa dipilih saat konfirmasi.</p>
+          <div class="product-meta"><span class="meta-chip">Instagram</span><span class="meta-chip">Pilih jumlah</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp8.000</strong></div><button class="buy-btn" type="button" data-demo-product="Suntik Followers Instagram" data-demo-price="8000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="sosmed" data-name="Suntik TikTok Views & Likes" style="--reveal-delay:210ms">
+          <div class="card-top">
+            <div class="product-art art-blue" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Cepat</span>
+          </div>
+          <h3>Suntik TikTok Views & Likes</h3>
+          <p>Layanan engagement TikTok untuk views dan likes sesuai paket yang dipilih.</p>
+          <div class="product-meta"><span class="meta-chip">TikTok</span><span class="meta-chip">Multi-paket</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp7.000</strong></div><button class="buy-btn" type="button" data-demo-product="Suntik TikTok Views & Likes" data-demo-price="7000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="nokos" data-name="Nokos WhatsApp Indonesia" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-yellow" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Stok terbatas</span>
+          </div>
+          <h3>Nokos WhatsApp Indonesia</h3>
+          <p>Nomor virtual Indonesia untuk kebutuhan aktivasi, mengikuti stok yang tersedia.</p>
+          <div class="product-meta"><span class="meta-chip">Indonesia</span><span class="meta-chip">Stok harian</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp18.000</strong></div><button class="buy-btn" type="button" data-demo-product="Nokos WhatsApp Indonesia" data-demo-price="18000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="nokos" data-name="Nokos WhatsApp Luar Negeri" style="--reveal-delay:70ms">
+          <div class="card-top">
+            <div class="product-art art-mint" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Pilihan negara</span>
+          </div>
+          <h3>Nokos WhatsApp Luar Negeri</h3>
+          <p>Pilihan nomor virtual beberapa negara dengan proses pengecekan stok manual.</p>
+          <div class="product-meta"><span class="meta-chip">Multi-negara</span><span class="meta-chip">Cek stok</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp15.000</strong></div><button class="buy-btn" type="button" data-demo-product="Nokos WhatsApp Luar Negeri" data-demo-price="15000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="hosting" data-name="Domain .my.id + Setup" style="--reveal-delay:140ms">
+          <div class="card-top">
+            <div class="product-art art-orange" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Hemat</span>
+          </div>
+          <h3>Domain .my.id + Setup</h3>
+          <p>Paket domain personal lengkap dengan bantuan pengaturan DNS dasar.</p>
+          <div class="product-meta"><span class="meta-chip">Domain 1 tahun</span><span class="meta-chip">DNS setup</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp25.000</strong></div><button class="buy-btn" type="button" data-demo-product="Domain .my.id + Setup" data-demo-price="25000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="hosting" data-name="Hosting Website Starter" style="--reveal-delay:210ms">
+          <div class="card-top">
+            <div class="product-art art-lime" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Starter</span>
+          </div>
+          <h3>Hosting Website Starter</h3>
+          <p>Hosting untuk landing page dan website ringan dengan bantuan upload awal.</p>
+          <div class="product-meta"><span class="meta-chip">1GB storage</span><span class="meta-chip">30 hari</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp12.000</strong></div><button class="buy-btn" type="button" data-demo-product="Hosting Website Starter" data-demo-price="12000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="desain" data-name="Jasa Desain Logo" style="--reveal-delay:0ms">
+          <div class="card-top">
+            <div class="product-art art-blue" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Kreatif</span>
+          </div>
+          <h3>Jasa Desain Logo</h3>
+          <p>Logo digital sederhana untuk toko, komunitas, atau identitas proyek.</p>
+          <div class="product-meta"><span class="meta-chip">2 revisi</span><span class="meta-chip">File PNG</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp30.000</strong></div><button class="buy-btn" type="button" data-demo-product="Jasa Desain Logo" data-demo-price="30000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="desain" data-name="Jasa Banner & Feed" style="--reveal-delay:70ms">
+          <div class="card-top">
+            <div class="product-art art-pink" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Custom</span>
+          </div>
+          <h3>Jasa Banner & Feed</h3>
+          <p>Desain banner promosi atau konten feed yang disesuaikan dengan brand.</p>
+          <div class="product-meta"><span class="meta-chip">Custom size</span><span class="meta-chip">2 revisi</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp20.000</strong></div><button class="buy-btn" type="button" data-demo-product="Jasa Banner & Feed" data-demo-price="20000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="premium" data-name="Canva Premium" style="--reveal-delay:140ms">
+          <div class="card-top">
+            <div class="product-art art-mint" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge hot">Premium</span>
+          </div>
+          <h3>Canva Premium</h3>
+          <p>Akses aplikasi desain premium sesuai paket dan masa aktif yang dipilih.</p>
+          <div class="product-meta"><span class="meta-chip">Akun premium</span><span class="meta-chip">30 hari</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp10.000</strong></div><button class="buy-btn" type="button" data-demo-product="Canva Premium" data-demo-price="10000">Beli</button></div>
+        </article>
+
+        <article class="product-card reveal" data-category="premium" data-name="YouTube Premium" style="--reveal-delay:210ms">
+          <div class="card-top">
+            <div class="product-art art-yellow" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="15" width="16" height="6" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 6h.01M8 18h.01M12 6h4M12 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <span class="badge">Hiburan</span>
+          </div>
+          <h3>YouTube Premium</h3>
+          <p>Paket akses hiburan premium dengan proses aktivasi melalui admin.</p>
+          <div class="product-meta"><span class="meta-chip">30 hari</span><span class="meta-chip">Aktivasi admin</span></div>
+          <div class="card-bottom"><div class="price"><small>Harga contoh</small><strong>Rp15.000</strong></div><button class="buy-btn" type="button" data-demo-product="YouTube Premium" data-demo-price="15000">Beli</button></div>
+        </article>
+        <div class="empty-state" id="empty-state">Produk tidak ditemukan. Coba kata kunci atau kategori lain.</div>
+      </div>
+    </section>
+
+
+
+    <section id="comparison" class="container" aria-labelledby="comparison-title">
+      <div class="section-head"><h2 id="comparison-title" data-i18n data-id="Bandingkan Paket Panel" data-en="Compare Panel Plans">Bandingkan Paket Panel</h2><p data-i18n data-id="Lihat resource dan harga empat paket populer dalam satu tampilan." data-en="See resources and pricing for four popular plans at a glance.">Lihat resource dan harga empat paket populer dalam satu tampilan.</p></div>
+      <div class="comparison-shell reveal">
+        <table class="comparison-table">
+          <thead><tr><th scope="col" data-i18n data-id="Spesifikasi" data-en="Specification">Spesifikasi</th><th scope="col">2GB</th><th scope="col" class="popular-col"><span class="popular-flag" data-i18n data-id="Paling Laris" data-en="Best seller">Paling Laris</span>4GB</th><th scope="col">8GB</th><th scope="col">Unlimited</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">RAM</th><td>2GB</td><td class="popular-col">4GB</td><td>8GB</td><td>Unlimited</td></tr>
+            <tr><th scope="row">CPU</th><td>60%</td><td class="popular-col">100%</td><td>180%</td><td>Unlimited</td></tr>
+            <tr><th scope="row">Disk</th><td>4GB</td><td class="popular-col">8GB</td><td>16GB</td><td>Unlimited</td></tr>
+            <tr><th scope="row" data-i18n data-id="Harga" data-en="Price">Harga</th><td>Rp3.000</td><td class="popular-col">Rp5.000</td><td>Rp9.000</td><td>Rp13.000</td></tr>
+            <tr><th scope="row" data-i18n data-id="Pilih paket" data-en="Choose plan">Pilih paket</th><td><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 2GB" data-demo-price="3000" data-i18n data-id="Beli" data-en="Buy">Beli</button></td><td class="popular-col"><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000" data-i18n data-id="Beli" data-en="Buy">Beli</button></td><td><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 8GB" data-demo-price="9000" data-i18n data-id="Beli" data-en="Buy">Beli</button></td><td><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl Unlimited" data-demo-price="13000" data-i18n data-id="Beli" data-en="Buy">Beli</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="compare-mobile">
+        <article class="compare-mobile-card"><h3>Panel 2GB</h3><dl><div><dt>RAM</dt><dd>2GB</dd></div><div><dt>CPU</dt><dd>60%</dd></div><div><dt>Disk</dt><dd>4GB</dd></div><div><dt data-i18n data-id="Harga" data-en="Price">Harga</dt><dd>Rp3.000</dd></div></dl><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 2GB" data-demo-price="3000" data-i18n data-id="Beli" data-en="Buy">Beli</button></article>
+        <article class="compare-mobile-card featured"><span class="popular-flag" data-i18n data-id="Paling Laris" data-en="Best seller">Paling Laris</span><h3>Panel 4GB</h3><dl><div><dt>RAM</dt><dd>4GB</dd></div><div><dt>CPU</dt><dd>100%</dd></div><div><dt>Disk</dt><dd>8GB</dd></div><div><dt data-i18n data-id="Harga" data-en="Price">Harga</dt><dd>Rp5.000</dd></div></dl><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000" data-i18n data-id="Beli" data-en="Buy">Beli</button></article>
+        <article class="compare-mobile-card"><h3>Panel 8GB</h3><dl><div><dt>RAM</dt><dd>8GB</dd></div><div><dt>CPU</dt><dd>180%</dd></div><div><dt>Disk</dt><dd>16GB</dd></div><div><dt data-i18n data-id="Harga" data-en="Price">Harga</dt><dd>Rp9.000</dd></div></dl><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl 8GB" data-demo-price="9000" data-i18n data-id="Beli" data-en="Buy">Beli</button></article>
+        <article class="compare-mobile-card"><h3>Panel Unlimited</h3><dl><div><dt>RAM</dt><dd>Unlimited</dd></div><div><dt>CPU</dt><dd>Unlimited</dd></div><div><dt>Disk</dt><dd>Unlimited</dd></div><div><dt data-i18n data-id="Harga" data-en="Price">Harga</dt><dd>Rp13.000</dd></div></dl><button class="buy-btn" type="button" data-demo-product="Panel Pterodactyl Unlimited" data-demo-price="13000" data-i18n data-id="Beli" data-en="Buy">Beli</button></article>
+      </div>
+    </section>
+
+    <section id="bundle" class="container" aria-labelledby="bundle-title">
+      <div class="section-head"><h2 id="bundle-title" data-i18n data-id="Paket Bundle Hemat" data-en="Value Bundles">Paket Bundle Hemat</h2><p>Gabungkan kebutuhan utama dalam satu pesanan dengan harga yang lebih ringan.</p></div>
+      <div class="bundle-grid">
+        <article class="bundle-card reveal">
+          <span class="bundle-saving">Hemat 15%</span>
+          <h3>Bundle Starter</h3>
+          <ul class="bundle-list"><li>Panel Pterodactyl 2GB</li><li>Jasa run bot sampai aktif</li><li>Bantuan setup awal</li></ul>
+          <div class="bundle-price"><span class="bundle-old">Rp23.000</span><strong>Rp19.550</strong><button class="buy-btn" type="button" data-demo-product="Bundle Starter — Panel 2GB + Jasa Run Bot" data-demo-price="19550">Pilih bundle</button></div>
+        </article>
+        <article class="bundle-card featured reveal" style="--reveal-delay:70ms">
+          <span class="bundle-saving">Hemat 20%</span>
+          <h3>Bundle Sultan</h3>
+          <ul class="bundle-list"><li>Panel Pterodactyl 8GB</li><li>Script Bot Premium</li><li>Domain + setup DNS</li></ul>
+          <div class="bundle-price"><span class="bundle-old">Rp84.000</span><strong>Rp67.200</strong><button class="buy-btn" type="button" data-demo-product="Bundle Sultan — Panel 8GB + Script Premium + Domain" data-demo-price="67200">Pilih bundle</button></div>
+        </article>
+        <article class="bundle-card reveal" style="--reveal-delay:140ms">
+          <span class="bundle-saving">Hemat 25%</span>
+          <h3>Bundle Reseller</h3>
+          <ul class="bundle-list"><li>Akses Reseller Panel</li><li>3× Panel Pterodactyl 4GB</li><li>Panduan mulai jualan</li></ul>
+          <div class="bundle-price"><span class="bundle-old">Rp31.000</span><strong>Rp23.250</strong><button class="buy-btn" type="button" data-demo-product="Bundle Reseller — Reseller Panel + 3x Panel 4GB" data-demo-price="23250">Pilih bundle</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="cara-beli" class="container" aria-labelledby="flow-title">
+      <div class="section-head"><h2 id="flow-title" data-i18n data-id="Alur beli yang jelas" data-en="A clear buying flow">Alur beli yang jelas</h2><p>Dari pilih produk sampai konfirmasi, semua langkah dibuat singkat agar pembeli tidak bingung.</p></div>
+      <div class="flow-strip">
+        <article class="flow-step"><span class="step-num">01</span><h3>Pilih produk</h3><p>Cari layanan dan tekan tombol beli pada kartu produk.</p></article>
+        <article class="flow-step"><span class="step-num">02</span><h3>Isi detail</h3><p>Masukkan nama dan kebutuhan akun atau username.</p></article>
+        <article class="flow-step"><span class="step-num">03</span><h3>Pilih pembayaran</h3><p>Gunakan QRIS, dompet digital, atau transfer bank.</p></article>
+        <article class="flow-step"><span class="step-num">04</span><h3>Invoice &amp; WhatsApp</h3><p>Simpan invoice, lalu kirim konfirmasi ke admin.</p></article>
+      </div>
+    </section>
+
+    <section id="tutorial" class="container" aria-labelledby="tutorial-title">
+      <div class="section-head"><h2 id="tutorial-title" data-i18n data-id="Tutorial" data-en="Guides">Tutorial</h2><p>Buka panduan yang kamu perlukan dan ikuti langkahnya satu per satu.</p></div>
+      <div class="tutorial-grid">
+        <article class="tutorial-card open reveal">
+          <button class="tutorial-toggle" type="button" aria-expanded="true">
+            <span class="tutorial-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 7h12l-1 13H7L6 7Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 9V5a3 3 0 0 1 6 0v4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span><strong>Cara Order</strong><small>Dari katalog sampai checkout</small></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tutorial-steps"><ol><li>Pilih produk atau bundle yang sesuai kebutuhan.</li><li>Tekan “Beli”, lalu isi nama dan detail akun.</li><li>Periksa ringkasan serta total sebelum melanjutkan.</li></ol></div>
+        </article>
+        <article class="tutorial-card reveal" style="--reveal-delay:70ms">
+          <button class="tutorial-toggle" type="button" aria-expanded="false">
+            <span class="tutorial-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="4" width="6" height="6" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="14" width="6" height="6" stroke="currentColor" stroke-width="1.8"/><path d="M14 14h3v3h3v3h-6v-6Z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span><strong>Bayar via QRIS</strong><small>Scan, cek nominal, bayar</small></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tutorial-steps"><ol><li>Pilih QRIS sebagai metode pembayaran.</li><li>Scan kode QR dengan aplikasi pembayaranmu.</li><li>Pastikan nominal sesuai, lalu simpan bukti transaksi.</li></ol></div>
+        </article>
+        <article class="tutorial-card reveal" style="--reveal-delay:140ms">
+          <button class="tutorial-toggle" type="button" aria-expanded="false">
+            <span class="tutorial-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 8.5c.4 2.5 2 4.1 4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span><strong>Konfirmasi WhatsApp</strong><small>Kirim detail dan bukti bayar</small></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tutorial-steps"><ol><li>Tekan “Konfirmasi via WhatsApp” setelah mengisi checkout.</li><li>Periksa invoice digital dan ambil tangkapan layar.</li><li>Lanjutkan ke WhatsApp dan lampirkan bukti pembayaran.</li></ol></div>
+        </article>
+        <article class="tutorial-card video-tutorial-card reveal" style="--reveal-delay:210ms">
+          <button class="video-thumb" id="open-video" type="button" aria-label="Putar Video Tutorial: Cara Order di Habibi Store">
+            <span class="video-screen-mark">VIDEO TUTORIAL</span>
+            <span class="video-play"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 7 8 5-8 5V7Z" fill="currentColor"/></svg></span>
+          </button>
+          <div class="video-card-copy"><h3>Video Tutorial: Cara Order di Habibi Store</h3><p>Tonton alur pilih produk, checkout, membuat invoice, dan konfirmasi ke admin.</p></div>
+        </article>
+      </div>
+    </section>
+
+
+
+    <section id="referral" class="container" aria-labelledby="referral-title">
+      <div class="referral-shell reveal">
+        <div class="referral-copy"><h2 id="referral-title" data-i18n data-id="Program Referral" data-en="Referral Program">Program Referral</h2><p data-i18n data-id="Bagikan kode referralmu. Teman mendapat diskon, kamu mendapat komisi setiap transaksi berhasil." data-en="Share your referral code. Friends get a discount and you earn commission on each successful purchase.">Bagikan kode referralmu. Teman mendapat diskon, kamu mendapat komisi setiap transaksi berhasil.</p><div class="referral-benefits"><div class="referral-benefit"><strong>5%</strong><span data-i18n data-id="Diskon untuk teman" data-en="Friend discount">Diskon untuk teman</span></div><div class="referral-benefit"><strong>10%</strong><span data-i18n data-id="Komisi untuk kamu" data-en="Commission for you">Komisi untuk kamu</span></div></div></div>
+        <form class="referral-form" id="referral-form"><h3 data-i18n data-id="Daftar program" data-en="Join the program">Daftar program</h3><p data-i18n data-id="Isi data, lalu kirim pendaftaran melalui WhatsApp." data-en="Enter your details, then send your application via WhatsApp.">Isi data, lalu kirim pendaftaran melalui WhatsApp.</p><div class="field"><label for="referral-name" data-i18n data-id="Nama" data-en="Name">Nama</label><input id="referral-name" type="text" autocomplete="name" placeholder="Nama kamu" required /></div><div class="field"><label for="referral-phone" data-i18n data-id="Nomor WhatsApp" data-en="WhatsApp number">Nomor WhatsApp</label><input id="referral-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" required /></div><button class="confirm-btn" type="submit" data-i18n data-id="Daftar via WhatsApp" data-en="Apply via WhatsApp">Daftar via WhatsApp</button><p class="modal-status" id="referral-status" aria-live="polite"></p></form>
+      </div>
+    </section>
+
+    <section id="reseller" class="container" aria-labelledby="reseller-title">
+      <div class="reseller-cta reveal">
+        <div><h2 id="reseller-title" data-i18n data-id="Mulai jualan sebagai reseller" data-en="Start selling as a reseller">Mulai jualan sebagai reseller</h2><p>Pilih paket, ceritakan rencana singkatmu, lalu kirim pendaftaran ke admin melalui WhatsApp.</p><div class="reseller-points"><span>Harga reseller</span><span>Panduan mulai</span><span>Dukungan admin</span></div></div>
+        <button class="primary-btn" id="open-reseller" type="button">Jadi Reseller</button>
+      </div>
+    </section>
+
+    <section id="blog" class="container" aria-labelledby="blog-title">
+      <div class="section-head">
+        <div><h2 id="blog-title">Blog &amp; Tips</h2><p>Panduan praktis seputar panel, bot WhatsApp, dan cara mengelola layanan digital dengan lebih rapi.</p></div>
+        <button class="secondary-btn blog-head-action" type="button" data-scroll="blog-grid">Lihat Semua Artikel</button>
+      </div>
+      <div class="blog-grid" id="blog-grid">
+        <article class="blog-card reveal">
+          <div class="blog-card-top"><span class="blog-category">Panel</span><time class="blog-date" datetime="2026-10-07">7 Okt 2026</time></div>
+          <h3>Cara Memilih Paket Panel yang Tepat untuk Bot WhatsApp</h3>
+          <p>Kenali beban bot, jumlah grup, dan fitur aktif sebelum menentukan kapasitas RAM serta CPU.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>4 menit baca</span><button class="article-btn" type="button" data-article="pilih-panel">Baca Selengkapnya</button></div>
+        </article>
+        <article class="blog-card reveal" style="--reveal-delay:60ms">
+          <div class="blog-card-top"><span class="blog-category">Keamanan Bot</span><time class="blog-date" datetime="2026-10-05">5 Okt 2026</time></div>
+          <h3>5 Tips Merawat Bot WhatsApp agar Tidak Kena Banned</h3>
+          <p>Kurangi pola penggunaan berisiko dan bangun kebiasaan operasional bot yang lebih aman.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>5 menit baca</span><button class="article-btn" type="button" data-article="rawat-bot">Baca Selengkapnya</button></div>
+        </article>
+        <article class="blog-card reveal" style="--reveal-delay:120ms">
+          <div class="blog-card-top"><span class="blog-category">Panduan Order</span><time class="blog-date" datetime="2026-10-03">3 Okt 2026</time></div>
+          <h3>Panduan Lengkap Order di Habibi Store</h3>
+          <p>Dari memilih produk sampai mengirim bukti pembayaran, ikuti alur order tanpa bingung.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>4 menit baca</span><button class="article-btn" type="button" data-article="panduan-order">Baca Selengkapnya</button></div>
+        </article>
+        <article class="blog-card reveal">
+          <div class="blog-card-top"><span class="blog-category">Edukasi</span><time class="blog-date" datetime="2026-10-01">1 Okt 2026</time></div>
+          <h3>Apa itu Panel Pterodactyl? Penjelasan untuk Pemula</h3>
+          <p>Pahami fungsi panel, resource server, dan kontrol dasar yang akan sering kamu gunakan.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>6 menit baca</span><button class="article-btn" type="button" data-article="kenal-pterodactyl">Baca Selengkapnya</button></div>
+        </article>
+        <article class="blog-card reveal" style="--reveal-delay:60ms">
+          <div class="blog-card-top"><span class="blog-category">Bisnis</span><time class="blog-date" datetime="2026-09-29">29 Sep 2026</time></div>
+          <h3>Cara Jadi Reseller Panel yang Sukses</h3>
+          <p>Mulai dari memilih target pasar, menyusun paket, sampai membangun dukungan pelanggan.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>5 menit baca</span><button class="article-btn" type="button" data-article="reseller-sukses">Baca Selengkapnya</button></div>
+        </article>
+        <article class="blog-card reveal" style="--reveal-delay:120ms">
+          <div class="blog-card-top"><span class="blog-category">Bot WhatsApp</span><time class="blog-date" datetime="2026-09-27">27 Sep 2026</time></div>
+          <h3>Perbedaan Sewa Bot vs Run Bot Sendiri</h3>
+          <p>Bandingkan biaya, kontrol teknis, dan waktu perawatan sebelum menentukan pilihan.</p>
+          <div class="blog-card-foot"><span class="read-time"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>5 menit baca</span><button class="article-btn" type="button" data-article="sewa-vs-sendiri">Baca Selengkapnya</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="testimoni" class="container" aria-labelledby="stories-title">
+      <div class="stories-layout">
+        <div class="stories-title"><h2 id="stories-title">Kata mereka setelah order.</h2><p>Carousel testimoni ini siap diisi ulasan asli pelanggan saat website diproduksikan.</p></div>
+        <div class="testimonial-shell">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <article class="testimonial active"><blockquote>Proses ordernya ringkas. Tinggal pilih paket, bayar, lalu detail konfirmasi sudah otomatis tersusun.</blockquote><div class="person"><div class="avatar">AR</div><div><strong>Contoh Pelanggan A</strong><small>Pembelian panel</small></div></div></article>
+          <article class="testimonial"><blockquote>Tampilan katalog gampang dicari dan informasi paketnya jelas sebelum masuk ke pembayaran.</blockquote><div class="person"><div class="avatar">DN</div><div><strong>Contoh Pelanggan B</strong><small>Sewa bot WhatsApp</small></div></div></article>
+          <article class="testimonial"><blockquote>Enak dipakai dari HP. Semua tombol penting tetap mudah dijangkau tanpa harus zoom.</blockquote><div class="person"><div class="avatar">RM</div><div><strong>Contoh Pelanggan C</strong><small>Layanan digital</small></div></div></article>
+          <div class="testimonial-controls">
+            <button class="round-btn" id="testimonial-prev" type="button" aria-label="Testimoni sebelumnya"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="round-btn" id="testimonial-next" type="button" aria-label="Testimoni berikutnya"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="container" aria-labelledby="faq-title">
+      <div class="faq-layout">
+        <div class="faq-intro"><h2 id="faq-title" data-i18n data-id="Pertanyaan yang sering muncul." data-en="Frequently asked questions.">Pertanyaan yang sering muncul.</h2><p>Informasi singkat sebelum pembeli melakukan pembayaran dan konfirmasi.</p></div>
+        <div class="faq-list">
+          <div class="faq-item open"><button class="faq-question" type="button" aria-expanded="true">Berapa lama pesanan diproses?<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="faq-answer"><p>Waktu proses mengikuti jenis produk dan antrean admin. Status order akan dikonfirmasi melalui WhatsApp setelah bukti pembayaran diterima.</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Metode pembayaran apa saja yang tersedia?<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="faq-answer"><p>Mockup menampilkan QRIS, DANA, OVO, SeaBank, dan Bank Jago. Nomor rekening yang tampil masih berupa contoh.</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Bagaimana cara mengirim bukti pembayaran?<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="faq-answer"><p>Setelah checkout, pilih konfirmasi via WhatsApp. Pesan order disiapkan otomatis; pembeli tinggal menambahkan tangkapan layar bukti pembayaran.</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false">Apakah produk mendapat garansi?<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><div class="faq-answer"><p>Ketentuan garansi dapat ditampilkan per produk agar pembeli mengetahui cakupan dan masa garansi sebelum checkout.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="footer-cta">
+        <div><h2 data-i18n data-id="Sudah tahu mau beli apa?" data-en="Know what you want to buy?">Sudah tahu mau beli apa?</h2><p>Pilih produknya dan lihat alur checkout versi mockup.</p></div>
+        <button class="primary-btn" type="button" data-scroll="katalog" data-i18n data-id="Buka katalog" data-en="Open catalog">Buka katalog</button>
+      </div>
+      <footer>Preview desain Habibi Store • konten akhir dapat disesuaikan dengan katalog asli</footer>
+    </div>
+  </main>
+
+
+
+  <section class="chat-window" id="chat-window" aria-label="Live chat" aria-live="polite">
+    <div class="chat-head"><span class="chat-avatar">AH</span><div><strong>Admin Habibi Store</strong><small data-i18n data-id="Siap membantu" data-en="Ready to help">Siap membantu</small></div><button class="chat-close" id="chat-close" type="button" aria-label="Tutup live chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+    <div class="chat-body" id="chat-body"><div class="chat-message" data-i18n data-id="Halo! Saya Admin Habibi Store. Ada yang bisa saya bantu? Pilih salah satu topik di bawah ya." data-en="Hi! I'm the Habibi Store admin. How can I help? Choose a topic below.">Halo! Saya Admin Habibi Store. Ada yang bisa saya bantu? Pilih salah satu topik di bawah ya.</div></div>
+    <div class="chat-quick"><button type="button" data-chat-topic="panel" data-i18n data-id="Tanya Panel" data-en="Ask about Panel">Tanya Panel</button><button type="button" data-chat-topic="price" data-i18n data-id="Tanya Harga" data-en="Ask Price">Tanya Harga</button><button type="button" data-chat-topic="track" data-i18n data-id="Lacak Pesanan" data-en="Track Order">Lacak Pesanan</button></div>
+  </section>
+  <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Buka live chat" aria-expanded="false"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 17.5 3.5 21l4.2-1.4A9 9 0 1 0 5 17.5Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="chat-unread">1</span></button>
+
+  <button class="wa-float" type="button" aria-label="Buka bantuan WhatsApp" data-support>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 8.5c.4 2.5 2 4.1 4.5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="m8.5 8 1.2-.5.9 1.8-.8.7M13.4 13.2l.7-.8 1.8.8-.4 1.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <div class="modal-backdrop" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="modal-title">Checkout produk</h2><button class="close-btn" type="button" aria-label="Tutup checkout"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="modal-body">
+        <div>
+          <div class="order-block">
+            <div class="order-line"><span>Produk</span><strong id="modal-product">Panel Pterodactyl 4GB</strong></div>
+            <div class="order-line"><span>Masa aktif</span><strong>30 hari</strong></div>
+            <div class="order-line"><span>Harga awal</span><strong id="modal-subtotal">Rp5.000</strong></div>
+            <div class="order-line discount-line" id="discount-line"><span>Diskon</span><strong id="modal-discount">−Rp0</strong></div>
+            <div class="order-line"><span>Total contoh</span><strong id="modal-total">Rp5.000</strong></div>
+          </div>
+          <div class="field"><label for="voucher-code">Kode voucher</label><div class="voucher-row"><input id="voucher-code" type="text" placeholder="HEMAT10" autocomplete="off" /><button class="voucher-btn" id="apply-voucher" type="button">Pakai</button></div><p class="voucher-message" id="voucher-message" aria-live="polite"></p></div>
+          <div class="field"><label for="buyer-name">Nama pembeli</label><input id="buyer-name" type="text" placeholder="Contoh: Habibi" autocomplete="name" /></div>
+          <div class="field"><label for="order-detail">Username / detail kebutuhan</label><input id="order-detail" type="text" placeholder="Contoh: habibi01" autocomplete="off" /></div>
+          <div class="payment-title">Pilih metode pembayaran</div>
+          <div class="payment-options" role="group" aria-label="Metode pembayaran">
+            <button class="payment-option active" type="button" data-payment="QRIS" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.8"/><path d="M14 14h3v3h4v4h-7v-7Z" stroke="currentColor" stroke-width="1.8"/></svg><span>QRIS</span></button>
+            <button class="payment-option" type="button" data-payment="DANA" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="4" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h5a3 3 0 1 1 0 6H8V9Z" stroke="currentColor" stroke-width="1.8"/></svg><span>DANA</span></button>
+            <button class="payment-option" type="button" data-payment="OVO" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="m14 8 3 8 3-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>OVO</span></button>
+            <button class="payment-option" type="button" data-payment="SeaBank" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 10h18L12 4 3 10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" stroke="currentColor" stroke-width="1.8"/></svg><span>SeaBank</span></button>
+            <button class="payment-option" type="button" data-payment="Bank Jago" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 10h18L12 4 3 10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18" stroke="currentColor" stroke-width="1.8"/></svg><span>Bank Jago</span></button>
+          </div>
+        </div>
+        <div class="payment-panel">
+          <div class="payment-display" id="payment-display">
+            <div><svg class="qr-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="6" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="64" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="6" y="64" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><path d="M48 8v16h12V44H44v14h14v12H46v22M62 54h30v16H74v22M88 78v14" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/></svg><span class="payment-brand" id="payment-brand">QR</span><b id="payment-label">QRIS Preview</b><small id="payment-subline">Bukan kode pembayaran aktif</small><div class="bank-account" id="bank-account"><span>Nomor rekening contoh</span><strong id="bank-number">9012 3456 7890</strong><small id="bank-owner">a.n. HABIBI STORE</small></div></div>
+          </div>
+          <p class="payment-note">Semua detail pembayaran di mockup ini masih contoh. Setelah data pesanan lengkap, invoice digital akan dibuat sebelum kamu lanjut ke WhatsApp.</p>
+          <button class="confirm-btn" id="confirm-order" type="button">Konfirmasi via WhatsApp</button>
+          <p class="modal-status" id="modal-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop invoice-modal" id="invoice-modal" role="dialog" aria-modal="true" aria-labelledby="invoice-modal-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="invoice-modal-title">Invoice pesanan</h2><button class="close-btn invoice-close" type="button" aria-label="Tutup invoice"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="invoice-wrap">
+        <article class="receipt" aria-label="Struk digital Habibi Store">
+          <div class="receipt-brand"><span class="receipt-logo">HS</span><span><strong>Habibi Store</strong><small>Invoice digital</small></span></div>
+          <div class="receipt-meta"><div><span>Nomor invoice</span><strong id="invoice-number">HBS-20261007-XXXX</strong></div><div><span>Tanggal</span><strong id="invoice-date">7 Oktober 2026</strong></div></div>
+          <div class="receipt-details">
+            <div class="receipt-row"><span>Produk</span><strong id="invoice-product">—</strong></div>
+            <div class="receipt-row"><span>Nama pembeli</span><strong id="invoice-buyer">—</strong></div>
+            <div class="receipt-row"><span>Username panel</span><strong id="invoice-username">—</strong></div>
+            <div class="receipt-row"><span>Metode pembayaran</span><strong id="invoice-payment">—</strong></div>
+            <div class="receipt-row"><span>Voucher</span><strong id="invoice-voucher">Tidak digunakan</strong></div>
+          </div>
+          <div class="receipt-totals">
+            <div class="receipt-row"><span>Subtotal</span><strong id="invoice-subtotal">—</strong></div>
+            <div class="receipt-row"><span>Diskon</span><strong id="invoice-discount">−Rp0</strong></div>
+            <div class="receipt-row receipt-total"><span>Total</span><strong id="invoice-total">—</strong></div>
+          </div>
+        </article>
+        <div class="invoice-actions"><button class="screenshot-btn" id="screenshot-invoice" type="button">Screenshot</button><button class="confirm-btn" id="continue-whatsapp" type="button">Lanjut ke WhatsApp</button></div>
+        <p class="screenshot-help" id="screenshot-help">Gunakan fitur tangkapan layar perangkat: Power + Volume Turun di sebagian besar HP, atau alat screenshot bawaan perangkatmu.</p>
+        <p class="modal-status" id="invoice-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop video-modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="video-modal-title">Video Tutorial: Cara Order di Habibi Store</h2><button class="close-btn video-close" type="button" aria-label="Tutup video tutorial"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="video-modal-body"><div class="video-frame"><iframe id="tutorial-video" title="Video tutorial cara order di Habibi Store" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><p>Video contoh ini menunjukkan tempat tutorial order akan ditampilkan. Konten final dapat diganti dengan video resmi Habibi Store.</p></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop reseller-modal" id="reseller-modal" role="dialog" aria-modal="true" aria-labelledby="reseller-modal-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="reseller-modal-title">Pendaftaran reseller</h2><button class="close-btn reseller-close" type="button" aria-label="Tutup formulir reseller"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <form class="modal-body" id="reseller-form">
+        <div class="field"><label for="reseller-name">Nama lengkap</label><input id="reseller-name" type="text" autocomplete="name" placeholder="Nama kamu" required /></div>
+        <div class="field"><label for="reseller-phone">Nomor WhatsApp</label><input id="reseller-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx" required /></div>
+        <div class="field"><label for="reseller-package">Paket reseller</label><select id="reseller-package" required><option value="">Pilih paket</option><option>Reseller Panel</option><option>Bundle Reseller</option><option>Admin Panel</option></select></div>
+        <div class="field"><label for="reseller-reason">Alasan ingin menjadi reseller</label><textarea id="reseller-reason" placeholder="Ceritakan rencana jualanmu secara singkat" required></textarea></div>
+        <button class="confirm-btn reseller-submit" type="submit">Daftar via WhatsApp</button>
+        <p class="modal-status" id="reseller-status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop article-modal" id="article-modal" role="dialog" aria-modal="true" aria-labelledby="article-modal-title">
+    <article class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="article-modal-meta"><span class="blog-category" id="article-modal-category">Panel</span><time id="article-modal-date" datetime="2026-10-07">7 Okt 2026</time><span id="article-modal-time">4 menit baca</span></div>
+          <h2 id="article-modal-title">Judul artikel</h2>
+        </div>
+        <button class="close-btn article-close" type="button" aria-label="Tutup artikel"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="article-body" id="article-modal-body"></div>
+    </article>
+  </div>
+
+  <aside class="purchase-toast" id="purchase-toast" aria-live="polite" aria-label="Contoh aktivitas pembelian">
+    <span class="purchase-toast-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M6 7h12l-1 13H7L6 7Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 9V5a3 3 0 0 1 6 0v4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+    <span><b id="purchase-text">Budi** baru membeli Panel 4GB</b><small id="purchase-time">Aktivitas demo • 2 menit lalu</small></span>
+    <button id="purchase-close" type="button" aria-label="Tutup notifikasi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </aside>
+
+  <script>
+    (function () {
+      var modal = document.getElementById('checkout-modal');
+      var modalProduct = document.getElementById('modal-product');
+      var modalSubtotal = document.getElementById('modal-subtotal');
+      var modalDiscount = document.getElementById('modal-discount');
+      var discountLine = document.getElementById('discount-line');
+      var modalTotal = document.getElementById('modal-total');
+      var voucherCode = document.getElementById('voucher-code');
+      var voucherMessage = document.getElementById('voucher-message');
+      var buyerName = document.getElementById('buyer-name');
+      var orderDetail = document.getElementById('order-detail');
+      var status = document.getElementById('modal-status');
+      var invoiceModal = document.getElementById('invoice-modal');
+      var invoiceStatus = document.getElementById('invoice-status');
+      var videoModal = document.getElementById('video-modal');
+      var tutorialVideo = document.getElementById('tutorial-video');
+      var selectedPayment = 'QRIS';
+      var currentProduct = 'Panel Pterodactyl 4GB';
+      var currentPrice = 5000;
+      var finalPrice = 5000;
+      var activeVoucher = '';
+      var currentOrderMessage = '';
+      var rupiah = new Intl.NumberFormat('id-ID');
+      var lastFocus = null;
+      var invoiceLastFocus = null;
+      var videoLastFocus = null;
+
+      function openModal(product, price) {
+        currentProduct = product || 'Konsultasi produk';
+        currentPrice = Number(price || 0);
+        finalPrice = currentPrice;
+        activeVoucher = '';
+        modalProduct.textContent = currentProduct;
+        modalSubtotal.textContent = currentPrice ? 'Rp' + rupiah.format(currentPrice) : 'Hubungi admin';
+        modalTotal.textContent = currentPrice ? 'Rp' + rupiah.format(currentPrice) : 'Hubungi admin';
+        discountLine.classList.remove('show');
+        voucherCode.value = '';
+        voucherMessage.textContent = '';
+        voucherMessage.className = 'voucher-message';
+        status.textContent = '';
+        selectedPayment = 'QRIS';
+        updatePaymentDisplay('QRIS');
+        document.querySelectorAll('.payment-option').forEach(function (item) { item.classList.toggle('active', item.dataset.payment === 'QRIS'); item.setAttribute('aria-pressed', String(item.dataset.payment === 'QRIS')); });
+        lastFocus = document.activeElement;
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { buyerName.focus(); }, 40);
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (lastFocus) lastFocus.focus();
+      }
+
+      document.querySelectorAll('[data-demo-product]').forEach(function (button) {
+        button.addEventListener('click', function () { openModal(button.dataset.demoProduct, button.dataset.demoPrice); });
+      });
+      document.querySelector('[data-support]').addEventListener('click', function () { openModal('Konsultasi produk', 0); });
+      document.querySelector('.close-btn').addEventListener('click', closeModal);
+      modal.addEventListener('click', function (event) { if (event.target === modal) closeModal(); });
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        if (modal.classList.contains('open')) closeModal();
+        if (invoiceModal.classList.contains('open')) closeInvoice();
+        if (videoModal.classList.contains('open')) closeVideo();
+        if (document.getElementById('reseller-modal').classList.contains('open')) {
+          document.getElementById('reseller-modal').classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        if (document.getElementById('article-modal').classList.contains('open')) closeArticle();
+      });
+
+      document.querySelectorAll('[data-scroll]').forEach(function (button) {
+        button.addEventListener('click', function () { document.getElementById(button.dataset.scroll).scrollIntoView({ behavior: 'smooth' }); });
+      });
+
+      var searchInput = document.getElementById('catalog-search');
+      var filterButtons = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('.product-card'));
+      var activeFilter = 'all';
+      function filterCatalog() {
+        var term = searchInput.value.trim().toLowerCase();
+        var shown = 0;
+        cards.forEach(function (card) {
+          var categoryOk = activeFilter === 'all' || card.dataset.category === activeFilter;
+          var nameOk = !term || card.dataset.name.toLowerCase().indexOf(term) !== -1 || card.textContent.toLowerCase().indexOf(term) !== -1;
+          card.hidden = !(categoryOk && nameOk);
+          if (!card.hidden) shown++;
+        });
+        var visiblePanels = cards.filter(function (card) { return !card.hidden && card.dataset.category === 'panel'; }).length;
+        var visibleOthers = cards.filter(function (card) { return !card.hidden && card.dataset.category !== 'panel'; }).length;
+        document.getElementById('panel-showcase').hidden = visiblePanels === 0;
+        document.getElementById('services-title').hidden = visibleOthers === 0;
+        document.getElementById('empty-state').classList.toggle('show', shown === 0);
+        document.getElementById('catalog-total').textContent = shown + ' produk';
+      }
+      searchInput.addEventListener('input', filterCatalog);
+      filterButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          activeFilter = button.dataset.filter;
+          filterButtons.forEach(function (item) { item.classList.toggle('active', item === button); });
+          filterCatalog();
+        });
+      });
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var revealTargets = document.querySelectorAll('.reveal, .section-head, .flow-strip, .stories-layout, .faq-layout, .footer-cta');
+      revealTargets.forEach(function (item) { item.classList.add('reveal'); });
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealTargets.forEach(function (item) { item.classList.add('is-visible'); });
+      } else {
+        var revealObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .12, rootMargin: '0px 0px -48px' });
+        revealTargets.forEach(function (item) { revealObserver.observe(item); });
+      }
+
+      var counters = document.querySelectorAll('[data-counter]');
+      function runCounter(counter) {
+        var end = Number(counter.dataset.counter || 0);
+        if (reduceMotion) { counter.textContent = rupiah.format(end); return; }
+        var startTime = null;
+        function frame(time) {
+          if (!startTime) startTime = time;
+          var progress = Math.min((time - startTime) / 1300, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = rupiah.format(Math.floor(end * eased));
+          if (progress < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        var counterObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) { if (entry.isIntersecting) { runCounter(entry.target); observer.unobserve(entry.target); } });
+        }, { threshold: .7 });
+        counters.forEach(function (counter) { counterObserver.observe(counter); });
+      } else {
+        counters.forEach(runCounter);
+      }
+
+      document.querySelectorAll('.nav-cta, .primary-btn, .secondary-btn, .buy-btn, .article-btn, .filter-btn, .round-btn, .confirm-btn, .preview-confirm, .wa-float').forEach(function (button) {
+        button.addEventListener('pointerdown', function (event) {
+          if (reduceMotion) return;
+          var rect = button.getBoundingClientRect();
+          var size = Math.max(rect.width, rect.height) * .62;
+          var ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.width = size + 'px';
+          ripple.style.height = size + 'px';
+          ripple.style.left = (event.clientX - rect.left) + 'px';
+          ripple.style.top = (event.clientY - rect.top) + 'px';
+          button.appendChild(ripple);
+          setTimeout(function () { ripple.remove(); }, 650);
+        });
+      });
+
+      document.querySelectorAll('.faq-question').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var item = button.parentElement;
+          var willOpen = !item.classList.contains('open');
+          document.querySelectorAll('.faq-item').forEach(function (faq) {
+            faq.classList.remove('open');
+            faq.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          });
+          if (willOpen) {
+            item.classList.add('open');
+            button.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      var testimonials = Array.prototype.slice.call(document.querySelectorAll('.testimonial'));
+      var testimonialIndex = 0;
+      function showTestimonial(index) {
+        testimonialIndex = (index + testimonials.length) % testimonials.length;
+        testimonials.forEach(function (item, i) { item.classList.toggle('active', i === testimonialIndex); });
+      }
+      document.getElementById('testimonial-prev').addEventListener('click', function () { showTestimonial(testimonialIndex - 1); });
+      document.getElementById('testimonial-next').addEventListener('click', function () { showTestimonial(testimonialIndex + 1); });
+
+      var paymentDetails = {
+        QRIS: { label: 'QRIS Preview', subline: 'Bukan kode pembayaran aktif', brand: 'QR' },
+        DANA: { label: 'DANA', subline: 'Nomor dompet contoh: 0812 3456 7890', brand: 'DANA' },
+        OVO: { label: 'OVO', subline: 'Nomor dompet contoh: 0812 3456 7890', brand: 'OVO' },
+        SeaBank: { label: 'SeaBank', subline: 'Transfer sesuai total invoice', brand: 'SEA', number: '9012 3456 7890' },
+        'Bank Jago': { label: 'Bank Jago', subline: 'Transfer sesuai total invoice', brand: 'JAGO', number: '1098 7654 3210' }
+      };
+      function updatePaymentDisplay(payment) {
+        var details = paymentDetails[payment] || paymentDetails.QRIS;
+        var display = document.getElementById('payment-display');
+        var bankAccount = document.getElementById('bank-account');
+        var isTransfer = payment !== 'QRIS';
+        var isBank = Boolean(details.number);
+        display.classList.toggle('is-transfer', isTransfer);
+        bankAccount.classList.toggle('show', isBank);
+        document.getElementById('payment-brand').textContent = details.brand;
+        document.getElementById('payment-label').textContent = details.label;
+        document.getElementById('payment-subline').textContent = details.subline;
+        if (isBank) {
+          document.getElementById('bank-number').textContent = details.number;
+          document.getElementById('bank-owner').textContent = 'a.n. HABIBI STORE';
+        }
+      }
+      document.querySelectorAll('.payment-option').forEach(function (button) {
+        button.addEventListener('click', function () {
+          selectedPayment = button.dataset.payment;
+          document.querySelectorAll('.payment-option').forEach(function (item) {
+            item.classList.toggle('active', item === button);
+            item.setAttribute('aria-pressed', String(item === button));
+          });
+          updatePaymentDisplay(selectedPayment);
+        });
+      });
+
+      function applyVoucher() {
+        var code = voucherCode.value.trim().toUpperCase();
+        var rate = 0;
+        var message = '';
+        if (!currentPrice) {
+          message = 'Voucher hanya berlaku untuk produk dengan harga tercantum.';
+        } else if (code === 'HEMAT10') {
+          rate = .10;
+        } else if (code === 'PANEL20') {
+          if (/panel/i.test(currentProduct)) rate = .20;
+          else message = 'PANEL20 hanya berlaku untuk produk panel.';
+        } else if (code === 'NEWBIE5') {
+          rate = .05;
+        } else {
+          message = 'Kode voucher tidak ditemukan.';
+        }
+        voucherMessage.className = 'voucher-message ' + (rate ? 'success' : 'error');
+        if (!rate) {
+          activeVoucher = '';
+          finalPrice = currentPrice;
+          discountLine.classList.remove('show');
+          modalTotal.textContent = currentPrice ? 'Rp' + rupiah.format(currentPrice) : 'Hubungi admin';
+          voucherMessage.textContent = message;
+          return;
+        }
+        activeVoucher = code;
+        var discount = Math.round(currentPrice * rate);
+        finalPrice = currentPrice - discount;
+        modalDiscount.textContent = '−Rp' + rupiah.format(discount);
+        modalTotal.textContent = 'Rp' + rupiah.format(finalPrice);
+        discountLine.classList.add('show');
+        voucherMessage.textContent = code + ' aktif — hemat ' + Math.round(rate * 100) + '%.';
+      }
+      document.getElementById('apply-voucher').addEventListener('click', applyVoucher);
+      voucherCode.addEventListener('keydown', function (event) { if (event.key === 'Enter') { event.preventDefault(); applyVoucher(); } });
+
+      function invoiceCode() {
+        var now = new Date();
+        var stamp = String(now.getFullYear()) + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+        var suffix = Math.random().toString(36).slice(2, 6).toUpperCase().padEnd(4, 'X');
+        return 'HBS-' + stamp + '-' + suffix;
+      }
+      function openInvoice(name, detail) {
+        var number = invoiceCode();
+        var subtotalText = currentPrice ? 'Rp' + rupiah.format(currentPrice) : 'Hubungi admin';
+        var discountValue = Math.max(0, currentPrice - finalPrice);
+        var discountText = discountValue ? '−Rp' + rupiah.format(discountValue) : '−Rp0';
+        var totalText = finalPrice ? 'Rp' + rupiah.format(finalPrice) : 'Hubungi admin';
+        var dateText = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date());
+        document.getElementById('invoice-number').textContent = number;
+        document.getElementById('invoice-date').textContent = dateText;
+        document.getElementById('invoice-product').textContent = currentProduct;
+        document.getElementById('invoice-buyer').textContent = name;
+        document.getElementById('invoice-username').textContent = detail;
+        document.getElementById('invoice-payment').textContent = selectedPayment;
+        document.getElementById('invoice-voucher').textContent = activeVoucher || 'Tidak digunakan';
+        document.getElementById('invoice-subtotal').textContent = subtotalText;
+        document.getElementById('invoice-discount').textContent = discountText;
+        document.getElementById('invoice-total').textContent = totalText;
+        currentOrderMessage = 'Halo Habibi Store, saya ingin konfirmasi pesanan.\n\nInvoice: ' + number + '\nProduk: ' + currentProduct + '\nNama: ' + name + '\nUsername/detail: ' + detail + '\nPembayaran: ' + selectedPayment + '\nVoucher: ' + (activeVoucher || 'Tidak digunakan') + '\nSubtotal: ' + subtotalText + '\nDiskon: ' + discountText + '\nTotal: ' + totalText + '\n\nSaya akan lampirkan invoice dan bukti pembayaran.';
+        invoiceStatus.textContent = '';
+        document.getElementById('screenshot-help').classList.remove('show');
+        invoiceLastFocus = document.activeElement;
+        modal.classList.remove('open');
+        invoiceModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { document.getElementById('screenshot-invoice').focus(); }, 40);
+      }
+      function closeInvoice() {
+        invoiceModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (invoiceLastFocus) invoiceLastFocus.focus();
+      }
+      document.getElementById('confirm-order').addEventListener('click', function () {
+        var name = buyerName.value.trim();
+        var detail = orderDetail.value.trim();
+        if (!name || !detail) {
+          status.textContent = 'Isi nama dan detail kebutuhan dulu.';
+          (name ? orderDetail : buyerName).focus();
+          return;
+        }
+        openInvoice(name, detail);
+      });
+      document.querySelector('.invoice-close').addEventListener('click', closeInvoice);
+      invoiceModal.addEventListener('click', function (event) { if (event.target === invoiceModal) closeInvoice(); });
+      document.getElementById('screenshot-invoice').addEventListener('click', function () {
+        document.getElementById('screenshot-help').classList.toggle('show');
+      });
+      document.getElementById('continue-whatsapp').addEventListener('click', function () {
+        if (navigator.share) {
+          navigator.share({ title: 'Konfirmasi pesanan Habibi Store', text: currentOrderMessage })
+            .then(function () { invoiceStatus.textContent = 'Pesan siap dibagikan. Pilih WhatsApp untuk mengirim.'; })
+            .catch(function (error) { if (error && error.name !== 'AbortError') copyMessage(currentOrderMessage); });
+        } else { copyMessage(currentOrderMessage); }
+      });
+
+      function copyMessage(message) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(message).then(function () {
+            invoiceStatus.textContent = 'Pesan order disalin. Tempelkan ke chat admin WhatsApp.';
+          }).catch(function () { invoiceStatus.textContent = 'Perangkat ini tidak mengizinkan salin otomatis.'; });
+        } else {
+          invoiceStatus.textContent = 'Perangkat ini tidak mendukung berbagi otomatis.';
+        }
+      }
+
+      // Flash sale countdown resets at the next local midnight.
+      function updateCountdown() {
+        var now = new Date();
+        var end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        var remaining = Math.max(0, end.getTime() - now.getTime());
+        var hours = Math.floor(remaining / 3600000);
+        var minutes = Math.floor((remaining % 3600000) / 60000);
+        var seconds = Math.floor((remaining % 60000) / 1000);
+        document.getElementById('count-hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('count-minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('count-seconds').textContent = String(seconds).padStart(2, '0');
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // Session-only limited stock labels for panel packages.
+      document.querySelectorAll('.panel-card').forEach(function (card) {
+        var badge = document.createElement('span');
+        var slots = 2 + Math.floor(Math.random() * 4);
+        badge.className = 'stock-badge';
+        badge.dataset.slots = String(slots);
+        badge.textContent = 'Sisa ' + slots + ' slot!';
+        card.querySelector('.card-top').insertAdjacentElement('afterend', badge);
+      });
+
+      // Server status detail panel.
+      var serverButton = document.getElementById('server-status-btn');
+      var serverPanel = document.getElementById('server-panel');
+      serverButton.addEventListener('click', function () {
+        var open = !serverPanel.classList.contains('open');
+        serverPanel.classList.toggle('open', open);
+        serverButton.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function (event) {
+        if (!event.target.closest('.server-wrap')) {
+          serverPanel.classList.remove('open');
+          serverButton.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // ID / EN toggle for the page's primary labels and actions.
+      var currentLanguage = 'id';
+      var genericActionLabels = [];
+      document.querySelectorAll('.buy-btn').forEach(function (button) {
+        if (button.hasAttribute('data-i18n')) return;
+        genericActionLabels.push({ node: button, id: button.textContent.trim(), en: button.textContent.trim() === 'Beli' ? 'Buy' : (button.textContent.trim() === 'Pilih bundle' ? 'Choose bundle' : button.textContent.trim()) });
+      });
+      function setLanguage(language) {
+        currentLanguage = language;
+        document.documentElement.lang = language;
+        document.querySelectorAll('[data-i18n]').forEach(function (node) {
+          node.textContent = node.getAttribute('data-' + language) || node.getAttribute('data-id');
+        });
+        genericActionLabels.forEach(function (item) { item.node.textContent = item[language]; });
+        document.querySelectorAll('.stock-badge').forEach(function (badge) {
+          badge.textContent = language === 'en' ? badge.dataset.slots + ' slots left!' : 'Sisa ' + badge.dataset.slots + ' slot!';
+        });
+        document.querySelectorAll('[data-lang]').forEach(function (button) { button.classList.toggle('active', button.dataset.lang === language); });
+      }
+      document.querySelectorAll('[data-lang]').forEach(function (button) { button.addEventListener('click', function () { setLanguage(button.dataset.lang); }); });
+
+      // Compact live chat with three guided topics.
+      var chatWindow = document.getElementById('chat-window');
+      var chatLauncher = document.getElementById('chat-launcher');
+      var chatBody = document.getElementById('chat-body');
+      function setChat(open) {
+        chatWindow.classList.toggle('open', open);
+        chatLauncher.setAttribute('aria-expanded', String(open));
+        chatLauncher.querySelector('.chat-unread').hidden = open;
+      }
+      chatLauncher.addEventListener('click', function () { setChat(!chatWindow.classList.contains('open')); });
+      document.getElementById('chat-close').addEventListener('click', function () { setChat(false); });
+      var chatCopy = {
+        panel: {
+          id: ['Saya ingin tahu paket panel.', 'Paket tersedia dari 1GB sampai Unlimited. Untuk pilihan populer, Panel 4GB cocok untuk bot komunitas dan Panel 8GB untuk beban lebih padat.'],
+          en: ['I want to know about panel plans.', 'Plans range from 1GB to Unlimited. Panel 4GB suits community bots, while 8GB handles heavier workloads.']
+        },
+        price: {
+          id: ['Berapa harga produknya?', 'Harga panel mulai Rp2.000. Buka katalog atau tabel perbandingan untuk melihat semua pilihan dan harga.'],
+          en: ['How much are the products?', 'Panel plans start at Rp2,000. Open the catalog or comparison table to see every option and price.']
+        },
+        track: {
+          id: ['Saya ingin melacak pesanan.', 'Siapkan ID pesanan atau detail nama pembeli, lalu lanjutkan ke bantuan WhatsApp agar admin dapat memeriksa statusnya.'],
+          en: ['I want to track my order.', 'Have your order ID or buyer name ready, then continue to WhatsApp support so the admin can check its status.']
+        }
+      };
+      document.querySelectorAll('[data-chat-topic]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var messages = chatCopy[button.dataset.chatTopic][currentLanguage];
+          var userMessage = document.createElement('div');
+          userMessage.className = 'chat-message user';
+          userMessage.textContent = messages[0];
+          chatBody.appendChild(userMessage);
+          setTimeout(function () {
+            var reply = document.createElement('div');
+            reply.className = 'chat-message';
+            reply.textContent = messages[1];
+            chatBody.appendChild(reply);
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }, reduceMotion ? 0 : 320);
+          chatBody.scrollTop = chatBody.scrollHeight;
+        });
+      });
+
+      // Referral registration uses the device share sheet; WhatsApp can be selected there.
+      var referralStatus = document.getElementById('referral-status');
+      document.getElementById('referral-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var name = document.getElementById('referral-name').value.trim();
+        var phone = document.getElementById('referral-phone').value.trim();
+        if (!name || !phone) return;
+        var message = 'Halo Habibi Store, saya ingin mendaftar Program Referral.\n\nNama: ' + name + '\nNomor WhatsApp: ' + phone + '\nBenefit: diskon teman 5% dan komisi 10%.';
+        if (navigator.share) {
+          navigator.share({ title: 'Pendaftaran Program Referral Habibi Store', text: message })
+            .then(function () { referralStatus.textContent = currentLanguage === 'en' ? 'Application ready to share. Select WhatsApp.' : 'Pendaftaran siap dibagikan. Pilih WhatsApp.'; })
+            .catch(function (error) { if (error && error.name !== 'AbortError') copyReferral(message); });
+        } else { copyReferral(message); }
+      });
+      function copyReferral(message) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(message).then(function () { referralStatus.textContent = currentLanguage === 'en' ? 'Application copied. Paste it into the admin WhatsApp chat.' : 'Pendaftaran disalin. Tempelkan ke chat WhatsApp admin.'; })
+            .catch(function () { referralStatus.textContent = currentLanguage === 'en' ? 'Automatic copy is not available.' : 'Salin otomatis tidak tersedia.'; });
+        } else { referralStatus.textContent = currentLanguage === 'en' ? 'Sharing is not supported on this device.' : 'Perangkat ini tidak mendukung berbagi otomatis.'; }
+      }
+
+      var themeToggle = document.getElementById('theme-toggle');
+      function isLightTheme() {
+        var chosen = document.documentElement.getAttribute('data-theme');
+        return chosen ? chosen === 'light' : window.matchMedia('(prefers-color-scheme: light)').matches;
+      }
+      function updateThemeControl() {
+        var light = isLightTheme();
+        themeToggle.setAttribute('aria-label', light ? 'Ganti ke mode gelap' : 'Ganti ke mode terang');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', light ? '#f4f5ef' : '#080a0c');
+      }
+      themeToggle.addEventListener('click', function () {
+        document.documentElement.setAttribute('data-theme', isLightTheme() ? 'dark' : 'light');
+        updateThemeControl();
+      });
+      updateThemeControl();
+
+      document.querySelectorAll('.tutorial-toggle').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var card = button.closest('.tutorial-card');
+          var open = !card.classList.contains('open');
+          card.classList.toggle('open', open);
+          button.setAttribute('aria-expanded', String(open));
+        });
+      });
+
+      function openVideo() {
+        videoLastFocus = document.activeElement;
+        tutorialVideo.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+        videoModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { videoModal.querySelector('.video-close').focus(); }, 40);
+      }
+      function closeVideo() {
+        videoModal.classList.remove('open');
+        tutorialVideo.removeAttribute('src');
+        document.body.style.overflow = '';
+        if (videoLastFocus) videoLastFocus.focus();
+      }
+      document.getElementById('open-video').addEventListener('click', openVideo);
+      videoModal.querySelector('.video-close').addEventListener('click', closeVideo);
+      videoModal.addEventListener('click', function (event) { if (event.target === videoModal) closeVideo(); });
+
+      var articleData = {
+        'pilih-panel': [
+          'Paket panel yang tepat bukan selalu paket dengan angka terbesar. Mulailah dari cara bot dipakai: berapa grup yang aktif, berapa banyak pesan yang diproses, dan apakah bot menjalankan fitur berat seperti konversi media atau pembuatan gambar. Kebutuhan bot sederhana tentu berbeda dari bot komunitas yang sibuk sepanjang hari.',
+          'RAM menjaga proses bot tetap berjalan, sedangkan alokasi CPU membantu menyelesaikan pekerjaan dengan cepat. Sisakan ruang agar bot tidak langsung menyentuh batas saat trafik naik. Jika masih mencoba script baru, paket kecil cocok untuk pengujian; untuk penggunaan rutin, pilih paket dengan cadangan resource yang masuk akal.',
+          'Setelah bot aktif, pantau penggunaan resource dan catat kapan bot mulai melambat atau restart. Naikkan paket berdasarkan pola pemakaian nyata, bukan sekadar perkiraan. Jika ragu, sampaikan jumlah grup, fitur utama, dan perkiraan aktivitas kepada admin agar rekomendasinya lebih tepat.'
+        ],
+        'rawat-bot': [
+          'Tidak ada cara yang bisa menjamin akun WhatsApp bebas dari pembatasan, tetapi pola penggunaan yang wajar dapat mengurangi risiko. Gunakan bot untuk kebutuhan yang jelas, patuhi ketentuan WhatsApp, dan pastikan orang yang menerima pesan memang mengharapkannya.',
+          'Tips pertama, hindari mengirim pesan massal yang berulang. Kedua, jangan menambah terlalu banyak grup atau kontak dalam waktu singkat. Ketiga, batasi fitur otomatis agar tidak membalas setiap pesan tanpa konteks; jeda dan batas penggunaan membantu interaksi terasa lebih alami.',
+          'Tips keempat, gunakan nomor yang aktif dan lengkapi profil secara wajar. Kelima, perbarui script serta dependensi secara terencana dan simpan cadangan konfigurasi penting. Saat muncul peringatan atau perilaku tidak biasa, hentikan automasi sementara dan periksa penyebabnya sebelum menjalankan bot kembali.'
+        ],
+        'panduan-order': [
+          'Mulai dari katalog lalu pilih produk, paket panel, atau bundle yang paling sesuai. Setiap kartu menampilkan ringkasan manfaat dan harga contoh agar pilihan dapat dibandingkan sebelum masuk ke checkout.',
+          'Tekan tombol beli untuk membuka ringkasan pesanan. Isi nama pembeli dan detail kebutuhan dengan jelas, pilih metode pembayaran, lalu periksa kembali produk serta nominal. Jika menggunakan voucher, masukkan kodenya sebelum melanjutkan agar total diperbarui.',
+          'Setelah memilih pembayaran, tekan Konfirmasi via WhatsApp. Invoice digital akan muncul lebih dulu; periksa nomor invoice, data pesanan, voucher, dan totalnya, lalu ambil tangkapan layar dengan fitur bawaan perangkat. Tekan Lanjut ke WhatsApp dan lampirkan invoice serta bukti pembayaran sebelum mengirimkannya kepada admin.'
+        ],
+        'kenal-pterodactyl': [
+          'Pterodactyl adalah panel berbasis web untuk mengelola aplikasi yang berjalan di server. Dalam konteks bot WhatsApp, panel memudahkan pengguna menyalakan, menghentikan, dan memantau proses bot tanpa harus menjalankan semua perintah dari terminal.',
+          'Di dalam panel biasanya ada konsol untuk melihat log, pengelola file untuk mengatur script, serta informasi penggunaan RAM, CPU, dan penyimpanan. Resource tersebut dibatasi sesuai paket sehingga satu layanan tidak mengambil kapasitas berlebihan dari layanan lain pada server yang sama.',
+          'Bagi pemula, langkah dasarnya adalah mengunggah script yang sah, mengisi konfigurasi yang dibutuhkan, memasang dependensi, lalu menjalankan bot sambil memeriksa log. Jangan membagikan akses panel atau data rahasia, dan lakukan perubahan satu per satu agar sumber error lebih mudah ditemukan.'
+        ],
+        'reseller-sukses': [
+          'Reseller panel menjual kembali paket server kepada pelanggan dengan dukungan dari penyedia utama. Sebelum mulai, tentukan target yang jelas—misalnya pemilik bot komunitas, toko digital, atau developer pemula—supaya paket dan cara komunikasimu tidak terlalu umum.',
+          'Susun pilihan sederhana berdasarkan kebutuhan, bukan hanya ukuran RAM. Jelaskan apa yang termasuk dalam harga, masa aktif, batas penggunaan, bantuan setup, dan ketentuan garansi. Catatan order yang rapi akan membantu menghindari salah paket sekaligus memudahkan perpanjangan pelanggan.',
+          'Kecepatan respons dan kejujuran tentang status server sering lebih berharga daripada perang harga. Siapkan panduan awal, jadwal bantuan, serta alur eskalasi jika ada masalah teknis. Evaluasi pertanyaan yang paling sering muncul lalu ubah jawabannya menjadi FAQ atau tutorial singkat.'
+        ],
+        'sewa-vs-sendiri': [
+          'Sewa bot cocok untuk pengguna yang ingin bot siap pakai tanpa mengurus instalasi, update, dan pemantauan server sendiri. Biayanya biasanya mencakup akses selama periode tertentu serta bantuan dasar dari penyedia, sehingga waktu persiapan lebih singkat.',
+          'Menjalankan bot sendiri memberi kontrol lebih besar atas script, konfigurasi, dan resource. Namun, kamu juga bertanggung jawab atas panel, dependensi, backup, keamanan akses, serta pemulihan ketika proses berhenti. Pilihan ini lebih cocok jika kamu nyaman menangani pekerjaan teknis rutin.',
+          'Bandingkan bukan hanya harga awal, tetapi juga waktu yang siap kamu luangkan dan tingkat kontrol yang dibutuhkan. Jika tujuannya segera memakai fitur standar, sewa bot lebih praktis. Jika ingin banyak modifikasi atau belajar pengelolaan server, menjalankan bot sendiri dapat menjadi pilihan yang lebih fleksibel.'
+        ]
+      };
+      var articleModal = document.getElementById('article-modal');
+      var articleBody = document.getElementById('article-modal-body');
+      var articleLastFocus = null;
+      function openArticle(button) {
+        var card = button.closest('.blog-card');
+        var date = card.querySelector('time');
+        var paragraphs = articleData[button.dataset.article] || [];
+        document.getElementById('article-modal-title').textContent = card.querySelector('h3').textContent;
+        document.getElementById('article-modal-category').textContent = card.querySelector('.blog-category').textContent;
+        document.getElementById('article-modal-time').textContent = card.querySelector('.read-time').textContent.trim();
+        var modalDate = document.getElementById('article-modal-date');
+        modalDate.textContent = date.textContent;
+        modalDate.setAttribute('datetime', date.getAttribute('datetime'));
+        articleBody.replaceChildren();
+        paragraphs.forEach(function (text) {
+          var paragraph = document.createElement('p');
+          paragraph.textContent = text;
+          articleBody.appendChild(paragraph);
+        });
+        articleLastFocus = button;
+        articleModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { articleModal.querySelector('.article-close').focus(); }, 40);
+      }
+      function closeArticle() {
+        articleModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (articleLastFocus) articleLastFocus.focus();
+      }
+      document.querySelectorAll('[data-article]').forEach(function (button) {
+        button.addEventListener('click', function () { openArticle(button); });
+      });
+      articleModal.querySelector('.article-close').addEventListener('click', closeArticle);
+      articleModal.addEventListener('click', function (event) { if (event.target === articleModal) closeArticle(); });
+
+      var resellerModal = document.getElementById('reseller-modal');
+      var resellerStatus = document.getElementById('reseller-status');
+      var resellerLastFocus = null;
+      function openResellerModal() {
+        resellerLastFocus = document.activeElement;
+        resellerModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function () { document.getElementById('reseller-name').focus(); }, 40);
+      }
+      function closeResellerModal() {
+        resellerModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if (resellerLastFocus) resellerLastFocus.focus();
+      }
+      document.getElementById('open-reseller').addEventListener('click', openResellerModal);
+      document.querySelector('.reseller-close').addEventListener('click', closeResellerModal);
+      resellerModal.addEventListener('click', function (event) { if (event.target === resellerModal) closeResellerModal(); });
+      document.getElementById('reseller-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var resellerName = document.getElementById('reseller-name').value.trim();
+        var resellerPhone = document.getElementById('reseller-phone').value.trim();
+        var resellerPackage = document.getElementById('reseller-package').value;
+        var resellerReason = document.getElementById('reseller-reason').value.trim();
+        var message = 'Halo Habibi Store, saya ingin mendaftar sebagai reseller.\n\nNama: ' + resellerName + '\nNomor WhatsApp: ' + resellerPhone + '\nPaket: ' + resellerPackage + '\nAlasan: ' + resellerReason;
+        if (navigator.share) {
+          navigator.share({ title: 'Pendaftaran reseller Habibi Store', text: message })
+            .then(function () { resellerStatus.textContent = 'Pendaftaran siap dibagikan. Pilih WhatsApp dan kirim ke admin.'; })
+            .catch(function (error) { if (error && error.name !== 'AbortError') copyResellerMessage(message); });
+        } else {
+          copyResellerMessage(message);
+        }
+      });
+      function copyResellerMessage(message) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(message).then(function () { resellerStatus.textContent = 'Data pendaftaran disalin. Tempelkan ke WhatsApp admin.'; })
+            .catch(function () { resellerStatus.textContent = 'Perangkat ini tidak mengizinkan salin otomatis.'; });
+        } else {
+          resellerStatus.textContent = 'Perangkat ini tidak mendukung berbagi otomatis.';
+        }
+      }
+
+      var toast = document.getElementById('purchase-toast');
+      var toastClosed = false;
+      var toastCount = 0;
+      var toastItems = [
+        ['Budi** baru membeli Panel 4GB', 'Aktivitas demo • 2 menit lalu'],
+        ['Siti** baru memilih Bundle Starter', 'Aktivitas demo • 5 menit lalu'],
+        ['Rizk** baru membeli Panel 8GB', 'Aktivitas demo • 8 menit lalu'],
+        ['Dian** baru mendaftar Reseller Panel', 'Aktivitas demo • 12 menit lalu']
+      ];
+      function scheduleToast() {
+        if (toastClosed || toastCount >= toastItems.length) return;
+        var wait = 8000 + Math.floor(Math.random() * 4001);
+        setTimeout(showToast, wait);
+      }
+      function showToast() {
+        if (toastClosed || toastCount >= toastItems.length) return;
+        var item = toastItems[toastCount];
+        document.getElementById('purchase-text').textContent = item[0];
+        document.getElementById('purchase-time').textContent = item[1];
+        toast.classList.add('show');
+        toastCount++;
+        setTimeout(function () { toast.classList.remove('show'); scheduleToast(); }, 4500);
+      }
+      document.getElementById('purchase-close').addEventListener('click', function () { toastClosed = true; toast.classList.remove('show'); });
+      if (!reduceMotion) scheduleToast();
+    })();
+  </script>
+</body>
+</html>
