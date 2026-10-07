@@ -1934,11 +1934,10 @@
         document.getElementById('screenshot-help').classList.toggle('show');
       });
       document.getElementById('continue-whatsapp').addEventListener('click', function () {
-        if (navigator.share) {
-          navigator.share({ title: 'Konfirmasi pesanan Habibi Store', text: currentOrderMessage })
-            .then(function () { invoiceStatus.textContent = 'Pesan siap dibagikan. Pilih WhatsApp untuk mengirim.'; })
-            .catch(function (error) { if (error && error.name !== 'AbortError') copyMessage(currentOrderMessage); });
-        } else { copyMessage(currentOrderMessage); }
+        var waNumber = (window.HABI_SETTINGS && window.HABI_SETTINGS.whatsapp_number) || '6285181576338';
+        var waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(currentOrderMessage);
+        window.open(waUrl, '_blank');
+        invoiceStatus.textContent = 'Membuka WhatsApp...';
       });
 
       function copyMessage(message) {
@@ -2258,11 +2257,12 @@
 (function () {
   var API = 'https://api.servercloud.my.id';
   var settings = { whatsapp_number: '6285181576338', store_name: 'Habibi Store', checkout_greeting: 'Halo Habibi Store, saya ingin konfirmasi pesanan.' };
+  window.HABI_SETTINGS = settings;
 
   // 1. Ambil pengaturan dari server
   fetch(API + '/store/settings').then(function (r) { return r.json(); }).then(function (d) {
     if (d && d.status && d.data) {
-      if (d.data.whatsapp_number) settings.whatsapp_number = d.data.whatsapp_number;
+      if (d.data.whatsapp_number) { settings.whatsapp_number = d.data.whatsapp_number; window.HABI_SETTINGS = settings; }
       if (d.data.store_name) settings.store_name = d.data.store_name;
       if (d.data.checkout_greeting) settings.checkout_greeting = d.data.checkout_greeting;
     }
