@@ -1829,6 +1829,13 @@
         document.getElementById('payment-brand').textContent = details.brand;
         document.getElementById('payment-label').textContent = details.label;
         document.getElementById('payment-subline').textContent = details.subline;
+        var qimg = document.getElementById('qris-img');
+        var qsvg = document.getElementById('qr-mark-svg');
+        if (qimg) {
+          var isQris = payment === 'QRIS';
+          qimg.style.display = isQris ? 'block' : 'none';
+          if (qsvg) qsvg.style.display = isQris ? 'none' : '';
+        }
         if (isBank) {
           document.getElementById('bank-number').textContent = details.number;
           document.getElementById('bank-owner').textContent = details.owner || 'a.n. HABIBI STORE';
