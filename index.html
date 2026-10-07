@@ -2067,11 +2067,9 @@
         var phone = document.getElementById('referral-phone').value.trim();
         if (!name || !phone) return;
         var message = 'Halo Habibi Store, saya ingin mendaftar Program Referral.\n\nNama: ' + name + '\nNomor WhatsApp: ' + phone + '\nBenefit: diskon teman 5% dan komisi 10%.';
-        if (navigator.share) {
-          navigator.share({ title: 'Pendaftaran Program Referral Habibi Store', text: message })
-            .then(function () { referralStatus.textContent = currentLanguage === 'en' ? 'Application ready to share. Select WhatsApp.' : 'Pendaftaran siap dibagikan. Pilih WhatsApp.'; })
-            .catch(function (error) { if (error && error.name !== 'AbortError') copyReferral(message); });
-        } else { copyReferral(message); }
+        var waNum = (window.HABI_SETTINGS && window.HABI_SETTINGS.whatsapp_number) || '6285181576338';
+        window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(message), '_blank');
+        referralStatus.textContent = currentLanguage === 'en' ? 'Opening WhatsApp...' : 'Membuka WhatsApp...';
       });
       function copyReferral(message) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2213,13 +2211,9 @@
         var resellerPackage = document.getElementById('reseller-package').value;
         var resellerReason = document.getElementById('reseller-reason').value.trim();
         var message = 'Halo Habibi Store, saya ingin mendaftar sebagai reseller.\n\nNama: ' + resellerName + '\nNomor WhatsApp: ' + resellerPhone + '\nPaket: ' + resellerPackage + '\nAlasan: ' + resellerReason;
-        if (navigator.share) {
-          navigator.share({ title: 'Pendaftaran reseller Habibi Store', text: message })
-            .then(function () { resellerStatus.textContent = 'Pendaftaran siap dibagikan. Pilih WhatsApp dan kirim ke admin.'; })
-            .catch(function (error) { if (error && error.name !== 'AbortError') copyResellerMessage(message); });
-        } else {
-          copyResellerMessage(message);
-        }
+        var waNum2 = (window.HABI_SETTINGS && window.HABI_SETTINGS.whatsapp_number) || '6285181576338';
+        window.open('https://wa.me/' + waNum2 + '?text=' + encodeURIComponent(message), '_blank');
+        resellerStatus.textContent = 'Membuka WhatsApp...';
       });
       function copyResellerMessage(message) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
