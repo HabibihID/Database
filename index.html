@@ -997,11 +997,8 @@
           <div><h2 id="flash-title" data-i18n data-id="Flash Sale Hari Ini" data-en="Today's Flash Sale">Flash Sale Hari Ini</h2><p data-i18n data-id="Harga spesial berakhir saat hari berganti." data-en="Special prices end at midnight.">Harga spesial berakhir saat hari berganti.</p></div>
           <div class="countdown" aria-label="Waktu flash sale tersisa"><span class="count-unit"><strong id="count-hours">00</strong><small data-i18n data-id="Jam" data-en="Hours">Jam</small></span><span class="count-sep">:</span><span class="count-unit"><strong id="count-minutes">00</strong><small data-i18n data-id="Menit" data-en="Minutes">Menit</small></span><span class="count-sep">:</span><span class="count-unit"><strong id="count-seconds">00</strong><small data-i18n data-id="Detik" data-en="Seconds">Detik</small></span></div>
         </div>
-        <div class="flash-grid">
-          <article class="flash-card"><span class="flash-card-label">−30%</span><h3>Panel Pterodactyl 4GB</h3><div class="flash-price"><del>Rp5.000</del><strong>Rp3.500</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:80%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 80%" data-en="80% sold">Terjual 80%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Panel Pterodactyl 4GB" data-demo-price="3500" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
-          <article class="flash-card"><span class="flash-card-label">−25%</span><h3>Panel Pterodactyl 8GB</h3><div class="flash-price"><del>Rp9.000</del><strong>Rp6.750</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:68%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 68%" data-en="68% sold">Terjual 68%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Panel Pterodactyl 8GB" data-demo-price="6750" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
-          <article class="flash-card"><span class="flash-card-label">−20%</span><h3>Sewa Bot WhatsApp 30 Hari</h3><div class="flash-price"><del>Rp25.000</del><strong>Rp20.000</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:54%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 54%" data-en="54% sold">Terjual 54%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Sewa Bot WhatsApp 30 Hari" data-demo-price="20000" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
-          <article class="flash-card"><span class="flash-card-label">−25%</span><h3>Bundle Reseller</h3><div class="flash-price"><del>Rp31.000</del><strong>Rp23.250</strong></div><div class="sale-progress" aria-hidden="true"><span style="--sold:73%"></span></div><div class="flash-sold" data-i18n data-id="Terjual 73%" data-en="73% sold">Terjual 73%</div><button class="buy-btn" type="button" data-demo-product="Flash Sale Bundle Reseller" data-demo-price="23250" data-i18n data-id="Ambil promo" data-en="Get deal">Ambil promo</button></article>
+        <div class="flash-grid" id="flash-grid">
+          <p style="color:var(--muted);grid-column:1/-1">Memuat promo...</p>
         </div>
       </div>
     </section>
@@ -2282,11 +2279,73 @@
   var API = 'https://api.servercloud.my.id';
   var settings = { whatsapp_number: '6285181576338', store_name: 'Habibi Store', checkout_greeting: 'Halo Habibi Store, saya ingin konfirmasi pesanan.' };
   window.HABI_SETTINGS = settings;
+  // Flash sale dinamis dari API
+  (function loadFlashSales() {
+    var grid = document.getElementById('flash-grid');
+    if (!grid) return;
+    function fmtRp(n) { return 'Rp' + Number(n).toLocaleString('id-ID'); }
+    function render(items) {
+      if (!items || !items.length) {
+        grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Belum ada promo aktif.</p>';
+        return;
+      }
+      grid.innerHTML = items.map(function(f) {
+        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.promo_price) / f.normal_price * 100) : 0;
+        var sold = f.stock > 0 ? Math.min(95, Math.round((1 - f.stock / (f.stock + 10)) * 100)) : 90;
+        return '<article class="flash-card"><span class="flash-card-label">\u2212' + disc + '%</span><h3>' + f.product_name + '</h3>' +
+          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.promo_price) + '</strong></div>' +
+          '<div class="sale-progress" aria-hidden="true"><span style="--sold:' + sold + '%"></span></div>' +
+          '<div class="flash-sold">Terjual ' + sold + '%</div>' +
+          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.promo_price + '">Ambil promo</button></article>';
+      }).join('');
+      // bind tombol beli yang baru di-render
+      grid.querySelectorAll('[data-demo-product]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          if (typeof openModal === 'function') openModal(btn.dataset.demoProduct, btn.dataset.demoPrice);
+        });
+      });
+    }
+    fetch('https://api.servercloud.my.id/store/flashsales')
+      .then(function(r) { return r.json(); })
+      .then(function(d) { if (d.status && d.data) render(d.data); })
+      .catch(function() { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Gagal memuat promo.</p>'; });
+  })();
 
   // 1. Ambil pengaturan dari server
   fetch(API + '/store/settings').then(function (r) { return r.json(); }).then(function (d) {
     if (d && d.status && d.data) {
-      if (d.data.whatsapp_number) { settings.whatsapp_number = d.data.whatsapp_number; window.HABI_SETTINGS = settings; }
+      if (d.data.whatsapp_number) { settings.whatsapp_number = d.data.whatsapp_number; window.HABI_SETTINGS = settings;
+  // Flash sale dinamis dari API
+  (function loadFlashSales() {
+    var grid = document.getElementById('flash-grid');
+    if (!grid) return;
+    function fmtRp(n) { return 'Rp' + Number(n).toLocaleString('id-ID'); }
+    function render(items) {
+      if (!items || !items.length) {
+        grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Belum ada promo aktif.</p>';
+        return;
+      }
+      grid.innerHTML = items.map(function(f) {
+        var disc = f.normal_price > 0 ? Math.round((f.normal_price - f.promo_price) / f.normal_price * 100) : 0;
+        var sold = f.stock > 0 ? Math.min(95, Math.round((1 - f.stock / (f.stock + 10)) * 100)) : 90;
+        return '<article class="flash-card"><span class="flash-card-label">\u2212' + disc + '%</span><h3>' + f.product_name + '</h3>' +
+          '<div class="flash-price"><del>' + fmtRp(f.normal_price) + '</del><strong>' + fmtRp(f.promo_price) + '</strong></div>' +
+          '<div class="sale-progress" aria-hidden="true"><span style="--sold:' + sold + '%"></span></div>' +
+          '<div class="flash-sold">Terjual ' + sold + '%</div>' +
+          '<button class="buy-btn" type="button" data-demo-product="Flash Sale ' + f.product_name + '" data-demo-price="' + f.promo_price + '">Ambil promo</button></article>';
+      }).join('');
+      // bind tombol beli yang baru di-render
+      grid.querySelectorAll('[data-demo-product]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          if (typeof openModal === 'function') openModal(btn.dataset.demoProduct, btn.dataset.demoPrice);
+        });
+      });
+    }
+    fetch('https://api.servercloud.my.id/store/flashsales')
+      .then(function(r) { return r.json(); })
+      .then(function(d) { if (d.status && d.data) render(d.data); })
+      .catch(function() { grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1">Gagal memuat promo.</p>'; });
+  })(); }
       if (d.data.store_name) settings.store_name = d.data.store_name;
       if (d.data.checkout_greeting) settings.checkout_greeting = d.data.checkout_greeting;
     }
