@@ -955,8 +955,8 @@
           </div>
           <div class="mini-qr">
             <div class="mini-qr-inner">
-              <svg class="qr-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="6" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="64" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="6" y="64" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><path d="M48 8v16h12V44H44v14h14v12H46v22M62 54h30v16H74v22M88 78v14" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/></svg>
-              <b>QRIS Preview</b><small>Bukan kode pembayaran aktif</small>
+              <img src="qris.jpg" alt="QRIS Habibi Store" style="width:180px;max-width:100%;border-radius:12px"/>
+              <b>QRIS Habibi Store</b><small>a.n. HABIBIH HARAHAP</small>
             </div>
           </div>
           <button class="preview-confirm" type="button" data-demo-product="Panel Pterodactyl 4GB" data-demo-price="5000">Konfirmasi via WhatsApp</button>
@@ -1547,7 +1547,7 @@
         </div>
         <div class="payment-panel">
           <div class="payment-display" id="payment-display">
-            <div><svg class="qr-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><rect x="6" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="64" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="6" y="64" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><path d="M48 8v16h12V44H44v14h14v12H46v22M62 54h30v16H74v22M88 78v14" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/></svg><span class="payment-brand" id="payment-brand">QR</span><b id="payment-label">QRIS Preview</b><small id="payment-subline">Bukan kode pembayaran aktif</small><div class="bank-account" id="bank-account"><span>Nomor rekening contoh</span><strong id="bank-number">9012 3456 7890</strong><small id="bank-owner">a.n. HABIBI STORE</small></div></div>
+            <div><img id="qris-img" src="qris.jpg" alt="QRIS" style="display:none;width:150px;max-width:100%;border-radius:10px;margin-bottom:8px"/><svg class="qr-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true" id="qr-mark-svg"><rect x="6" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="64" y="6" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><rect x="6" y="64" width="30" height="30" rx="3" stroke="currentColor" stroke-width="8"/><path d="M48 8v16h12V44H44v14h14v12H46v22M62 54h30v16H74v22M88 78v14" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/></svg><span class="payment-brand" id="payment-brand">QR</span><b id="payment-label">QRIS Habibi Store</b><small id="payment-subline">Scan QR di bawah</small><div class="bank-account" id="bank-account"><span>Nomor rekening contoh</span><strong id="bank-number">9012 3456 7890</strong><small id="bank-owner">a.n. HABIBI STORE</small></div></div>
           </div>
           <p class="payment-note">Semua detail pembayaran di mockup ini masih contoh. Setelah data pesanan lengkap, invoice digital akan dibuat sebelum kamu lanjut ke WhatsApp.</p>
           <button class="confirm-btn" id="confirm-order" type="button">Konfirmasi via WhatsApp</button>
@@ -1812,7 +1812,7 @@
       document.getElementById('testimonial-next').addEventListener('click', function () { showTestimonial(testimonialIndex + 1); });
 
       var paymentDetails = {
-        QRIS: { label: 'QRIS Preview', subline: 'Bukan kode pembayaran aktif', brand: 'QR' },
+        QRIS: { label: 'QRIS Habibi Store', subline: 'Scan QR di bawah', brand: 'QR' },
         DANA: { label: 'DANA', subline: 'Nomor dompet contoh: 0812 3456 7890', brand: 'DANA' },
         OVO: { label: 'OVO', subline: 'Nomor dompet contoh: 0812 3456 7890', brand: 'OVO' },
         SeaBank: { label: 'SeaBank', subline: 'Transfer sesuai total invoice', brand: 'SEA', number: '9012 3456 7890' },
