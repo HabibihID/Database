@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" content="#0b0d10" />
-  <link rel="icon" href="data:," />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta property="og:image" content="https://store.servercloud.my.id/logo.png" />
   <title>Habibi Store — Panel Pterodactyl, Sewa Bot & Layanan Digital</title>
   <meta name="description" content="Habibi Store — Toko layanan digital terpercaya. Panel Pterodactyl murah mulai Rp2.000, sewa bot WhatsApp, jasa script, suntik sosmed, dan lainnya. Checkout mudah via QRIS, DANA, OVO." />
   <meta name="keywords" content="panel pterodactyl murah, sewa bot whatsapp, jasa script, habibi store, panel run, reseller panel" />
@@ -113,6 +115,7 @@
       text-align: center;
       letter-spacing: .01em;
     }
+    .nav-brand { display: flex; align-items: center; text-decoration: none; }
     .site-nav {
       height: 72px;
       display: flex;
@@ -918,6 +921,7 @@
   
 
   <header class="container site-nav" aria-label="Navigasi utama">
+    <a href="#" class="nav-brand" aria-label="Habibi Store"><img src="logo.png" alt="Habibi Store" style="height:38px;width:auto;border-radius:8px" /></a>
     <div class="server-wrap">
       <button class="server-status-btn" id="server-status-btn" type="button" aria-expanded="false" aria-controls="server-panel"><span class="server-dot" aria-hidden="true"></span><span class="status-label" data-i18n data-id="Server: Online" data-en="Server: Online">Server: Online</span></button>
       <div class="server-panel" id="server-panel" role="dialog" aria-label="Status layanan">
