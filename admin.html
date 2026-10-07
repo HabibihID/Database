@@ -66,13 +66,31 @@ label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
     <button class="logout" onclick="doLogout()">Keluar</button>
   </div>
   <div class="tabs">
-    <div class="tab active" onclick="showTab('orders')">📦 Pesanan</div>
+    <div class="tab active" onclick="showTab('stats')">📊 Statistik</div>
+    <div class="tab" onclick="showTab('orders')">📦 Pesanan</div>
     <div class="tab" onclick="showTab('vouchers')">🎟️ Voucher</div>
     <div class="tab" onclick="showTab('flashsale')">⚡ Flash Sale</div>
+    <div class="tab" onclick="showTab('products')">📦 Produk</div>
+    <div class="tab" onclick="showTab('birthdays')">🎂 Ultah</div>
     <div class="tab" onclick="showTab('settings')">⚙️ Pengaturan</div>
   </div>
 
-  <div class="panel active" id="tab-orders">
+  <div class="panel active" id="tab-stats">
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+        <div style="background:#0f172a;padding:16px;border-radius:10px"><div style="font-size:12px;color:#94a3b8">Omzet Total</div><div id="stRevenue" style="font-size:22px;font-weight:700;color:#22c55e">-</div></div>
+        <div style="background:#0f172a;padding:16px;border-radius:10px"><div style="font-size:12px;color:#94a3b8">Total Order</div><div id="stOrders" style="font-size:22px;font-weight:700">-</div></div>
+        <div style="background:#0f172a;padding:16px;border-radius:10px"><div style="font-size:12px;color:#94a3b8">Hari Ini</div><div id="stToday" style="font-size:22px;font-weight:700;color:#3b82f6">-</div></div>
+        <div style="background:#0f172a;padding:16px;border-radius:10px"><div style="font-size:12px;color:#94a3b8">Voucher Aktif</div><div id="stVouchers" style="font-size:22px;font-weight:700;color:#a855f7">-</div></div>
+      </div>
+      <h4 style="margin:14px 0 8px">Penjualan 7 Hari Terakhir</h4>
+      <div id="chartDays" style="display:flex;align-items:flex-end;gap:6px;height:120px;padding:10px;background:#0f172a;border-radius:10px"></div>
+      <h4 style="margin:14px 0 8px">Produk Terlaris</h4>
+      <div id="topProducts" style="font-size:14px"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-orders">
     <div class="card">
       <div class="form-row">
         <select id="filterStatus" onchange="loadOrders()">
@@ -83,6 +101,7 @@ label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
           <option value="dibatalkan">Dibatalkan</option>
         </select>
         <button class="btn btn-blue" onclick="loadOrders()">🔄 Refresh</button>
+        <button class="btn btn-green" onclick="exportCSV()">📥 Export CSV</button>
       </div>
       <div style="overflow-x:auto"><table>
         <thead><tr><th>Invoice</th><th>Produk</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
@@ -124,6 +143,40 @@ label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
     </div>
   </div>
 
+  <div class="panel" id="tab-products">
+    <div class="card">
+      <h3 style="margin-bottom:14px">Kelola Produk</h3>
+      <div class="form-row">
+        <input type="text" id="pName" placeholder="Nama produk">
+        <input type="text" id="pCat" placeholder="Kategori">
+        <input type="number" id="pPrice" placeholder="Harga">
+        <button class="btn btn-green" onclick="saveProduct()">💾 Simpan</button>
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Produk</th><th>Kategori</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="productsBody"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-birthdays">
+    <div class="card">
+      <h3 style="margin-bottom:14px">🎂 Daftar Ulang Tahun Pelanggan</h3>
+      <div class="form-row">
+        <input type="text" id="bName" placeholder="Nama">
+        <input type="text" id="bWA" placeholder="No WA">
+        <input type="date" id="bDate">
+        <button class="btn btn-green" onclick="saveBirthday()">💾 Tambah</button>
+      </div>
+      <h4 style="margin:12px 0 8px">Ultah 7 Hari Ke Depan 🎉</h4>
+      <div id="upcomingBday" style="font-size:14px;margin-bottom:12px"></div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Nama</th><th>WA</th><th>Tgl Lahir</th><th>Aksi</th></tr></thead>
+        <tbody id="bdayBody"><tr><td colspan="4" class="empty">Memuat...</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
   <div class="panel" id="tab-settings">
     <div class="card">
       <h3 style="margin-bottom:14px">Pengaturan Toko</h3>
@@ -159,7 +212,7 @@ function doLogin() {
       sessionStorage.setItem('hbs_admin_key', KEY);
       document.getElementById('loginBox').style.display = 'none';
       document.getElementById('dashBox').style.display = 'block';
-      loadOrders(); loadVouchers(); loadFlashsales(); loadSettings();
+      loadStats(); loadOrders(); loadVouchers(); loadFlashsales(); loadProducts(); loadBirthdays(); loadSettings();
     } else { document.getElementById('loginErr').style.display = 'block'; }
   }).catch(function () { document.getElementById('loginErr').style.display = 'block'; });
 }
@@ -264,6 +317,110 @@ function delFlash(id) {
   if (!confirm('Hapus flash sale ini?')) return;
   api('/store/admin/flashsales/' + id, 'DELETE').then(function () { loadFlashsales(); });
 }
+function loadStats() {
+  api('/store/admin/stats').then(function (d) {
+    if (!d.status) return;
+    var s = d.data;
+    document.getElementById('stRevenue').textContent = rp(s.total_revenue);
+    document.getElementById('stOrders').textContent = s.total_orders;
+    document.getElementById('stToday').textContent = s.today_orders + ' (' + rp(s.today_revenue) + ')';
+    document.getElementById('stVouchers').textContent = s.active_vouchers;
+    var max = Math.max.apply(null, s.by_day.map(function(x){return x.s;}).concat([1]));
+    document.getElementById('chartDays').innerHTML = s.by_day.map(function(x){
+      var h = Math.round(x.s / max * 100);
+      var lbl = x.d.slice(5);
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">' +
+        '<div title="' + rp(x.s) + '" style="width:100%;max-width:40px;height:' + h + '%;background:#22c55e;border-radius:4px 4px 0 0"></div>' +
+        '<div style="font-size:10px;color:#64748b;margin-top:4px">' + lbl + '</div></div>';
+    }).join('') || '<div class="empty">Belum ada data</div>';
+    document.getElementById('topProducts').innerHTML = s.top_products.map(function(p, i){
+      return '<div style="padding:8px;background:#0f172a;border-radius:8px;margin-bottom:6px">' +
+        '<b>#' + (i+1) + '</b> ' + p.product_name + ' — ' + p.c + ' terjual (' + rp(p.s) + ')</div>';
+    }).join('') || '<div class="empty">Belum ada data</div>';
+  });
+}
+function exportCSV() {
+  var st = document.getElementById('filterStatus').value;
+  var a = document.createElement('a');
+  a.href = API + '/store/admin/orders/export' + (st ? '?status=' + st : '');
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  // pakai fetch dengan header
+  fetch(a.href, { headers: { 'x-admin-key': KEY } }).then(function(r){ return r.blob(); }).then(function(b){
+    var url = URL.createObjectURL(b);
+    a.href = url; a.download = 'orders.csv'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1000);
+  });
+}
+function loadProducts() {
+  api('/store/admin/products').then(function (d) {
+    var tb = document.getElementById('productsBody');
+    if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">Belum ada produk.</td></tr>'; return; }
+    tb.innerHTML = d.data.map(function (p) {
+      return '<tr><td><b>' + p.name + '</b></td><td>' + (p.category || '-') + '</td>' +
+        '<td>' + rp(p.price) + '</td>' +
+        '<td>' + (p.is_active ? '<span class="badge b-selesai">Aktif</span>' : '<span class="badge b-batal">Nonaktif</span>') + '</td>' +
+        '<td><button class="btn btn-gray" onclick="editProduct(' + p.id + ')">Edit</button> ' +
+        '<button class="btn btn-red" onclick="delProduct(' + p.id + ')">Hapus</button></td></tr>';
+    }).join('');
+  });
+}
+var _prodCache = {};
+function saveProduct() {
+  var name = document.getElementById('pName').value.trim();
+  var cat = document.getElementById('pCat').value.trim();
+  var price = parseInt(document.getElementById('pPrice').value, 10);
+  if (!name || isNaN(price)) { alert('Isi nama & harga!'); return; }
+  var id = document.getElementById('pName').dataset.editId || null;
+  api('/store/admin/products', 'POST', { id: id, name: name, category: cat, price: price, is_active: 1 }).then(function (d) {
+    if (d.status) { document.getElementById('pName').value=''; document.getElementById('pCat').value=''; document.getElementById('pPrice').value=''; delete document.getElementById('pName').dataset.editId; loadProducts(); }
+  });
+}
+function editProduct(id) {
+  api('/store/admin/products').then(function(d){
+    var p = d.data.find(function(x){ return x.id === id; });
+    if (!p) return;
+    document.getElementById('pName').value = p.name;
+    document.getElementById('pCat').value = p.category || '';
+    document.getElementById('pPrice').value = p.price;
+    document.getElementById('pName').dataset.editId = id;
+    window.scrollTo(0,0);
+  });
+}
+function delProduct(id) {
+  if (!confirm('Hapus produk ini?')) return;
+  api('/store/admin/products/' + id, 'DELETE').then(function(){ loadProducts(); });
+}
+function loadBirthdays() {
+  api('/store/admin/birthdays').then(function (d) {
+    var tb = document.getElementById('bdayBody');
+    if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="4" class="empty">Belum ada data.</td></tr>'; return; }
+    tb.innerHTML = d.data.map(function (b) {
+      return '<tr><td><b>' + b.name + '</b></td><td>' + (b.whatsapp || '-') + '</td><td>' + b.birthdate + '</td>' +
+        '<td><button class="btn btn-red" onclick="delBirthday(' + b.id + ')">Hapus</button></td></tr>';
+    }).join('');
+  });
+  api('/store/admin/birthdays/upcoming?days=7').then(function (d) {
+    var el = document.getElementById('upcomingBday');
+    if (!d.status || !d.data.length) { el.innerHTML = '<div class="empty">Tidak ada ultah minggu ini.</div>'; return; }
+    el.innerHTML = d.data.map(function (b) {
+      return '<div style="padding:8px;background:#0f172a;border-radius:8px;margin-bottom:6px">🎉 <b>' + b.name + '</b> — ' + b.next_bday + (b.whatsapp ? ' (' + b.whatsapp + ')' : '') + '</div>';
+    }).join('');
+  });
+}
+function saveBirthday() {
+  var name = document.getElementById('bName').value.trim();
+  var wa = document.getElementById('bWA').value.trim();
+  var dt = document.getElementById('bDate').value;
+  if (!name || !dt) { alert('Isi nama & tanggal lahir!'); return; }
+  api('/store/admin/birthdays', 'POST', { name: name, whatsapp: wa, birthdate: dt }).then(function (d) {
+    if (d.status) { document.getElementById('bName').value=''; document.getElementById('bWA').value=''; document.getElementById('bDate').value=''; loadBirthdays(); }
+  });
+}
+function delBirthday(id) {
+  if (!confirm('Hapus?')) return;
+  api('/store/admin/birthdays/' + id, 'DELETE').then(function(){ loadBirthdays(); });
+}
 function loadSettings() {
   api('/store/admin/settings').then(function (d) {
     if (!d.status) return;
@@ -291,7 +448,7 @@ if (KEY) {
     if (d.status) {
       document.getElementById('loginBox').style.display = 'none';
       document.getElementById('dashBox').style.display = 'block';
-      loadOrders(); loadVouchers(); loadFlashsales(); loadSettings();
+      loadStats(); loadOrders(); loadVouchers(); loadFlashsales(); loadProducts(); loadBirthdays(); loadSettings();
     }
   }).catch(function(){});
 }
