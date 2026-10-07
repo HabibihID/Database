@@ -68,6 +68,7 @@ label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
   <div class="tabs">
     <div class="tab active" onclick="showTab('orders')">📦 Pesanan</div>
     <div class="tab" onclick="showTab('vouchers')">🎟️ Voucher</div>
+    <div class="tab" onclick="showTab('flashsale')">⚡ Flash Sale</div>
     <div class="tab" onclick="showTab('settings')">⚙️ Pengaturan</div>
   </div>
 
@@ -96,11 +97,29 @@ label{font-size:13px;color:#94a3b8;display:block;margin-bottom:4px}
       <div class="form-row">
         <input type="text" id="vCode" placeholder="KODE (cth: HEMAT20)">
         <input type="number" id="vDisc" placeholder="Diskon % (0-100)" min="0" max="100">
+        <input type="number" id="vNom" placeholder="Diskon Rp (nominal)">
         <button class="btn btn-green" onclick="saveVoucher()">💾 Simpan</button>
       </div>
       <div style="overflow-x:auto"><table>
         <thead><tr><th>Kode</th><th>Diskon</th><th>Terpakai</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody id="vouchersBody"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="panel" id="tab-flashsale">
+    <div class="card">
+      <h3 style="margin-bottom:14px">Kelola Flash Sale</h3>
+      <div class="form-row">
+        <input type="text" id="fProduct" placeholder="Nama produk">
+        <input type="number" id="fNormal" placeholder="Harga normal">
+        <input type="number" id="fSale" placeholder="Harga promo">
+        <input type="number" id="fStock" placeholder="Stok" value="20">
+        <button class="btn btn-green" onclick="saveFlashsale()">💾 Tambah</button>
+      </div>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>Produk</th><th>Normal</th><th>Promo</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="flashBody"><tr><td colspan="6" class="empty">Memuat...</td></tr></tbody>
       </table></div>
     </div>
   </div>
@@ -140,7 +159,7 @@ function doLogin() {
       sessionStorage.setItem('hbs_admin_key', KEY);
       document.getElementById('loginBox').style.display = 'none';
       document.getElementById('dashBox').style.display = 'block';
-      loadOrders(); loadVouchers(); loadSettings();
+      loadOrders(); loadVouchers(); loadFlashsales(); loadSettings();
     } else { document.getElementById('loginErr').style.display = 'block'; }
   }).catch(function () { document.getElementById('loginErr').style.display = 'block'; });
 }
@@ -178,7 +197,9 @@ function loadVouchers() {
     var tb = document.getElementById('vouchersBody');
     if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="5" class="empty">Belum ada voucher.</td></tr>'; return; }
     tb.innerHTML = d.data.map(function (v) {
-      return '<tr><td><b>' + v.code + '</b></td><td>' + v.discount_percent + '%</td>' +
+      var discTxt = v.discount_percent > 0 ? v.discount_percent + '%' : '';
+      if (v.discount_nominal > 0) discTxt += (discTxt ? ' + ' : '') + 'Rp' + Number(v.discount_nominal).toLocaleString('id-ID');
+      return '<tr><td><b>' + v.code + '</b></td><td>' + discTxt + '</td>' +
         '<td>' + (v.used_count || 0) + (v.max_uses ? '/' + v.max_uses : '') + '</td>' +
         '<td>' + (v.is_active ? '<span class="badge b-selesai">Aktif</span>' : '<span class="badge b-batal">Nonaktif</span>') + '</td>' +
         '<td><button class="btn btn-gray" onclick="editVoucher(\'' + v.code + '\',' + v.discount_percent + ')">Edit</button> ' +
@@ -188,9 +209,11 @@ function loadVouchers() {
 }
 function saveVoucher() {
   var code = document.getElementById('vCode').value.trim().toUpperCase();
-  var disc = parseInt(document.getElementById('vDisc').value, 10);
-  if (!code || isNaN(disc) || disc < 0 || disc > 100) { alert('Isi kode & diskon 0-100!'); return; }
-  api('/store/admin/vouchers', 'POST', { code: code, discount_percent: disc }).then(function (d) {
+  var disc = parseInt(document.getElementById('vDisc').value, 10) || 0;
+  var nom = parseInt(document.getElementById('vNom').value, 10) || 0;
+  if (!code || (disc <= 0 && nom <= 0)) { alert('Isi kode & salah satu diskon!'); return; }
+  if (disc < 0 || disc > 100) { alert('Diskon % 0-100!'); return; }
+  api('/store/admin/vouchers', 'POST', { code: code, discount_percent: disc, discount_nominal: nom }).then(function (d) {
     if (d.status) { document.getElementById('vCode').value = ''; document.getElementById('vDisc').value = ''; loadVouchers(); }
     else alert(d.message || 'Gagal');
   });
@@ -205,6 +228,42 @@ function delVoucher(code) {
   api('/store/admin/vouchers/' + code, 'DELETE').then(function () { loadVouchers(); });
 }
 
+function loadFlashsales() {
+  api('/store/admin/flashsales').then(function (d) {
+    var tb = document.getElementById('flashBody');
+    if (!d.status || !d.data.length) { tb.innerHTML = '<tr><td colspan="6" class="empty">Belum ada flash sale.</td></tr>'; return; }
+    d.data.forEach(function(f){ _flashCache[f.id] = f; });
+    tb.innerHTML = d.data.map(function (f) {
+      return '<tr><td><b>' + f.product_name + '</b></td><td>Rp' + Number(f.normal_price).toLocaleString('id-ID') + '</td>' +
+        '<td style="color:#22c55e"><b>Rp' + Number(f.sale_price).toLocaleString('id-ID') + '</b></td>' +
+        '<td>' + f.sold + '/' + f.stock + '</td>' +
+        '<td>' + (f.is_active ? '<span class="badge b-selesai">Aktif</span>' : '<span class="badge b-batal">Nonaktif</span>') + '</td>' +
+        '<td><button class="btn btn-gray" onclick="toggleFlash(' + f.id + ',' + (f.is_active ? 0 : 1) + ')">' + (f.is_active ? 'Matikan' : 'Aktifkan') + '</button> ' +
+        '<button class="btn btn-red" onclick="delFlash(' + f.id + ')">Hapus</button></td></tr>';
+    }).join('');
+  });
+}
+function saveFlashsale() {
+  var p = document.getElementById('fProduct').value.trim();
+  var n = parseInt(document.getElementById('fNormal').value, 10);
+  var sl = parseInt(document.getElementById('fSale').value, 10);
+  var st = parseInt(document.getElementById('fStock').value, 10) || 20;
+  if (!p || isNaN(n) || isNaN(sl)) { alert('Isi produk & harga!'); return; }
+  api('/store/admin/flashsales', 'POST', { product_name: p, normal_price: n, sale_price: sl, stock: st, is_active: 1 }).then(function (d) {
+    if (d.status) { ['fProduct','fNormal','fSale'].forEach(function(id){document.getElementById(id).value='';}); loadFlashsales(); }
+    else alert(d.message || 'Gagal');
+  });
+}
+var _flashCache = {};
+function toggleFlash(id, active) {
+  var f = _flashCache[id];
+  if (!f) return;
+  api('/store/admin/flashsales', 'POST', { id: id, product_name: f.product_name, normal_price: f.normal_price, sale_price: f.sale_price, stock: f.stock, is_active: active }).then(function(){ loadFlashsales(); });
+}
+function delFlash(id) {
+  if (!confirm('Hapus flash sale ini?')) return;
+  api('/store/admin/flashsales/' + id, 'DELETE').then(function () { loadFlashsales(); });
+}
 function loadSettings() {
   api('/store/admin/settings').then(function (d) {
     if (!d.status) return;
@@ -232,7 +291,7 @@ if (KEY) {
     if (d.status) {
       document.getElementById('loginBox').style.display = 'none';
       document.getElementById('dashBox').style.display = 'block';
-      loadOrders(); loadVouchers(); loadSettings();
+      loadOrders(); loadVouchers(); loadFlashsales(); loadSettings();
     }
   }).catch(function(){});
 }
