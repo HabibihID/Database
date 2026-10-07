@@ -2253,5 +2253,121 @@
       if (!reduceMotion) scheduleToast();
     })();
   </script>
+<!-- HABIBI STORE ↔ VPS API INTEGRATION (injected) -->
+<script>
+(function () {
+  var API = 'https://api.servercloud.my.id';
+  var settings = { whatsapp_number: '6285181576338', store_name: 'Habibi Store', checkout_greeting: 'Halo Habibi Store, saya ingin konfirmasi pesanan.' };
+
+  // 1. Ambil pengaturan dari server
+  fetch(API + '/store/settings').then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.status && d.data) {
+      if (d.data.whatsapp_number) settings.whatsapp_number = d.data.whatsapp_number;
+      if (d.data.store_name) settings.store_name = d.data.store_name;
+      if (d.data.checkout_greeting) settings.checkout_greeting = d.data.checkout_greeting;
+    }
+  }).catch(function () {});
+
+  // 2. Validasi voucher via API (override tombol Pakai)
+  var voucherBtn = document.getElementById('apply-voucher');
+  if (voucherBtn) {
+    voucherBtn.addEventListener('click', function () {
+      var codeEl = document.getElementById('voucher-code');
+      var msgEl = document.getElementById('voucher-message');
+      var code = (codeEl.value || '').trim().toUpperCase();
+      if (!code) return;
+      fetch(API + '/store/voucher/' + encodeURIComponent(code)).then(function (r) { return r.json(); }).then(function (d) {
+        if (d && d.status) {
+          msgEl.className = 'voucher-message success';
+          msgEl.textContent = code + ' valid — hemat ' + d.data.discount_percent + '% (server).';
+        }
+      }).catch(function () {});
+    });
+  }
+
+  // 3. Simpan order ke server saat invoice dibuka
+  var confirmBtn = document.getElementById('confirm-order');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function () {
+      setTimeout(function () {
+        try {
+          var num = document.getElementById('invoice-number').textContent;
+          var product = document.getElementById('invoice-product').textContent;
+          var buyer = document.getElementById('invoice-buyer').textContent;
+          var username = document.getElementById('invoice-username').textContent;
+          var payment = document.getElementById('invoice-payment').textContent;
+          var voucher = document.getElementById('invoice-voucher').textContent;
+          var subtotal = parseInt((document.getElementById('invoice-subtotal').textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
+          var discount = parseInt((document.getElementById('invoice-discount').textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
+          var total = parseInt((document.getElementById('invoice-total').textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
+          if (!num || !product) return;
+          fetch(API + '/store/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              customer_name: buyer, whatsapp: '', product_name: product,
+              panel_username: username, payment_method: payment,
+              voucher_code: voucher === 'Tidak digunakan' ? null : voucher,
+              subtotal: subtotal, discount: discount, total: total,
+              client_invoice: num
+            })
+          }).then(function (r) { return r.json(); }).then(function (d) {
+            if (d && d.status && d.data && d.data.invoice_number) {
+              document.getElementById('invoice-number').textContent = d.data.invoice_number;
+            }
+          }).catch(function () {});
+        } catch (e) {}
+      }, 300);
+    });
+  }
+
+  // 4. Lacak pesanan via API — tambah form di chat
+  document.querySelectorAll('[data-chat-topic="track"]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setTimeout(function () {
+        var chatBody = document.querySelector('.chat-body');
+        if (!chatBody || document.getElementById('track-form')) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'chat-message';
+        wrap.id = 'track-form';
+        wrap.innerHTML = '<div style="margin-bottom:6px">Masukkan nomor invoice:</div>' +
+          '<div style="display:flex;gap:6px"><input id="track-invoice" placeholder="HBS-20261007-XXXX" style="flex:1;padding:6px 8px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;font-size:13px"/>' +
+          '<button id="track-go" style="padding:6px 12px;border-radius:8px;border:0;background:#22c55e;color:#fff;font-weight:600;cursor:pointer">Cek</button></div>' +
+          '<div id="track-result" style="margin-top:6px;font-size:13px"></div>';
+        chatBody.appendChild(wrap);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        document.getElementById('track-go').addEventListener('click', function () {
+          var inv = document.getElementById('track-invoice').value.trim();
+          var res = document.getElementById('track-result');
+          if (!inv) { res.textContent = 'Isi nomor invoice dulu.'; return; }
+          res.textContent = 'Mengecek...';
+          fetch(API + '/store/order/' + encodeURIComponent(inv)).then(function (r) { return r.json(); }).then(function (d) {
+            if (d && d.status) {
+              var o = d.data;
+              res.innerHTML = '<b>' + o.invoice_number + '</b><br>Produk: ' + o.product_name +
+                '<br>Total: Rp' + Number(o.total).toLocaleString('id-ID') +
+                '<br>Status: <b>' + o.status_label + '</b>';
+            } else {
+              res.textContent = 'Invoice tidak ditemukan.';
+            }
+          }).catch(function () { res.textContent = 'Gagal menghubungi server.'; });
+        });
+      }, 600);
+    });
+  });
+
+  // 5. Pakai nomor WA dari server untuk tombol WhatsApp (ganti link wa.me)
+  setInterval(function () {
+    document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (href && !a.dataset.habiPatched) {
+        a.dataset.habiPatched = '1';
+        a.setAttribute('href', href.replace(/wa\.me\/\d+/, 'wa.me/' + settings.whatsapp_number));
+      }
+    });
+  }, 2000);
+})();
+</script>
+
 </body>
 </html>
