@@ -915,6 +915,33 @@
       *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
       .reveal, .reveal.is-visible { opacity: 1; transform: none; animation: none !important; }
     }
+  
+    /* ===== Lacak Pesanan ===== */
+    .track-modal .modal { width: min(520px, 100%); }
+    .track-form { display: flex; gap: 10px; margin-bottom: 18px; }
+    .track-form input { flex: 1; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--bg-soft); color: var(--text); font-size: 14px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+    .track-form input:focus { outline: none; border-color: var(--accent); }
+    .track-form button { padding: 12px 20px; border-radius: 12px; border: none; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .track-form button:hover { opacity: .9; }
+    .track-result { display: none; }
+    .track-result.show { display: block; }
+    .track-info { background: var(--bg-soft); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+    .track-info .receipt-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+    .track-info .receipt-row span { color: var(--muted); }
+    .track-timeline { position: relative; padding-left: 28px; }
+    .track-timeline::before { content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+    .track-step { position: relative; padding: 0 0 18px; }
+    .track-step:last-child { padding-bottom: 0; }
+    .track-step .dot { position: absolute; left: -28px; top: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--border); border: 3px solid var(--bg); }
+    .track-step.done .dot { background: #22c55e; }
+    .track-step.now .dot { background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent); animation: pulse 1.5s infinite; }
+    .track-step.cancelled .dot { background: #ef4444; }
+    .track-step .lbl { font-weight: 700; font-size: 14px; }
+    .track-step .sub { font-size: 12px; color: var(--muted); }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent); } 50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--accent) 10%, transparent); } }
+    .track-error { display: none; background: #fef2f2; color: #dc2626; border-radius: 12px; padding: 12px 14px; font-size: 13px; font-weight: 600; margin-top: 12px; }
+    .track-error.show { display: block; }
+
   </style>
 </head>
 <body>
@@ -938,6 +965,7 @@
       <a href="#referral" data-i18n data-id="Referral" data-en="Referral">Referral</a>
       <a href="#blog" data-i18n data-id="Blog" data-en="Blog">Blog</a>
       <a href="#faq">FAQ</a>
+      <a href="#" id="nav-lacak" data-i18n data-id="Lacak" data-en="Track">Lacak</a>
     </nav>
     <div class="nav-actions">
       <div class="lang-toggle" role="group" aria-label="Pilih bahasa"><button class="active" type="button" data-lang="id">ID</button><button type="button" data-lang="en">EN</button></div>
@@ -1604,6 +1632,27 @@
     </div>
   </div>
 
+  <div class="modal-backdrop track-modal" id="track-modal" role="dialog" aria-modal="true" aria-labelledby="track-modal-title">
+    <div class="modal">
+      <div class="modal-head"><h2 id="track-modal-title">Lacak Pesanan</h2><button class="close-btn track-close" type="button" aria-label="Tutup lacak pesanan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+      <div class="modal-body">
+        <form class="track-form" id="track-form">
+          <input id="track-invoice" type="text" placeholder="HBS-20261007-XXXX" autocomplete="off" />
+          <button type="submit">Lacak</button>
+        </form>
+        <div class="track-error" id="track-error"></div>
+        <div class="track-result" id="track-result">
+          <div class="track-info">
+            <div class="receipt-row"><span>Invoice</span><strong id="track-inv">—</strong></div>
+            <div class="receipt-row"><span>Produk</span><strong id="track-prod">—</strong></div>
+            <div class="receipt-row"><span>Total</span><strong id="track-total">—</strong></div>
+          </div>
+          <div class="track-timeline" id="track-timeline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-backdrop video-modal" id="video-modal" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
     <div class="modal">
       <div class="modal-head"><h2 id="video-modal-title">Video Tutorial: Cara Order di Habibi Store</h2><button class="close-btn video-close" type="button" aria-label="Tutup video tutorial"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
@@ -1958,6 +2007,56 @@
       });
       document.querySelector('.invoice-close').addEventListener('click', closeInvoice);
       invoiceModal.addEventListener('click', function (event) { if (event.target === invoiceModal) closeInvoice(); });
+      /* ===== Lacak Pesanan ===== */
+      var trackModal = document.getElementById('track-modal');
+      function openTrack() { trackModal.classList.add('show'); document.body.style.overflow = 'hidden'; }
+      function closeTrack() { trackModal.classList.remove('show'); document.body.style.overflow = ''; }
+      document.getElementById('nav-lacak').addEventListener('click', function (e) { e.preventDefault(); openTrack(); });
+      document.querySelector('.track-close').addEventListener('click', closeTrack);
+      trackModal.addEventListener('click', function (e) { if (e.target === trackModal) closeTrack(); });
+
+      var STATUS_STEPS = [
+        { key: 'menunggu_pembayaran', label: 'Menunggu Pembayaran', sub: 'Menunggu bukti pembayaran dikonfirmasi' },
+        { key: 'diproses', label: 'Diproses', sub: 'Admin sedang memproses pesananmu' },
+        { key: 'selesai', label: 'Selesai', sub: 'Pesanan selesai, cek WhatsApp untuk detail' },
+      ];
+      function renderTimeline(status) {
+        var tl = document.getElementById('track-timeline');
+        if (status === 'dibatalkan') {
+          tl.innerHTML = '<div class="track-step cancelled"><span class="dot"></span><div class="lbl">Dibatalkan</div><div class="sub">Pesanan ini dibatalkan</div></div>';
+          return;
+        }
+        var idx = STATUS_STEPS.findIndex(function (s) { return s.key === status; });
+        if (idx < 0) idx = 0;
+        tl.innerHTML = STATUS_STEPS.map(function (s, i) {
+          var cls = i < idx ? 'done' : (i === idx ? 'now' : '');
+          return '<div class="track-step ' + cls + '"><span class="dot"></span><div class="lbl">' + s.label + '</div><div class="sub">' + s.sub + '</div></div>';
+        }).join('');
+      }
+      function fmtRp(n) { return 'Rp' + Number(n || 0).toLocaleString('id-ID'); }
+      document.getElementById('track-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var inv = document.getElementById('track-invoice').value.trim().toUpperCase();
+        var errEl = document.getElementById('track-error');
+        var resEl = document.getElementById('track-result');
+        errEl.classList.remove('show'); resEl.classList.remove('show');
+        if (!inv) { errEl.textContent = 'Masukkan nomor invoice dulu!'; errEl.classList.add('show'); return; }
+        errEl.textContent = 'Mencari...'; errEl.classList.add('show');
+        fetch(API + '/store/order/' + encodeURIComponent(inv))
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (x) {
+            if (!x.ok || !x.j.status) { errEl.textContent = '❌ ' + (x.j.message || 'Invoice tidak ditemukan'); return; }
+            errEl.classList.remove('show');
+            var d = x.j.data;
+            document.getElementById('track-inv').textContent = d.invoice || inv;
+            document.getElementById('track-prod').textContent = d.product_name || d.product || '—';
+            document.getElementById('track-total').textContent = fmtRp(d.total);
+            renderTimeline(d.status);
+            resEl.classList.add('show');
+          })
+          .catch(function () { errEl.textContent = '❌ Gagal menghubungi server. Coba lagi!'; });
+      });
+
       document.getElementById('screenshot-invoice').addEventListener('click', function () {
         document.getElementById('screenshot-help').classList.toggle('show');
       });
